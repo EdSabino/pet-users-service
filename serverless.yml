@@ -1,0 +1,33 @@
+org: edsabino
+app: pet-users-service
+service: pet-users-service
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: '20201221'
+  environment:
+    MONGO_URI: mongodb+srv://adm:9XIh4bdywjikBOKu@development.khj7l.mongodb.net/pet-user-db
+    SNS_TOPIC_EMAIL: ${self:custom.snsTopicEmail}
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action:
+            - "sns:Publish"
+          Resource:
+            - ${self:custom.snsTopicEmail}
+  
+custom:
+  snsTopicEmail: arn:aws:sns:us-east-1:136545430773:pet-emails
+
+functions:
+  create:
+    handler: handlers.create
+    events:
+      - http:
+          path: /
+          method: post
+          cors: true
