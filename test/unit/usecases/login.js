@@ -11,14 +11,14 @@ describe('login', () => {
   describe('#exec', () => {
     describe('with valid user', () => {
       const localUser = validUser();
-      let user = validUser();
-
-      before(async () => {
+      
+      beforeEach(async () => {
+        const user = validUser();
         await user.hashPassword();
         sinon.stub(User, 'findOne').resolves(user);
       });
 
-      after(() => {
+      afterEach(() => {
         User.findOne.restore();
       });
 
@@ -30,7 +30,6 @@ describe('login', () => {
       it('should return new user', async () => {
         const result = await loginUsecase({ body: localUser });
         jwt.verify(result.token, process.env.SECRET, (err) => {
-          console.log(err)
           assert(!err)
         });
       });
@@ -42,13 +41,13 @@ describe('login', () => {
       const localUser = validUser();
       let user = validUser();
 
-      before(async () => {
+      beforeEach(async () => {
         localUser.password = '123';
         await user.hashPassword();
         sinon.stub(User, 'findOne').resolves(user);
       });
 
-      after(() => {
+      afterEach(() => {
         User.findOne.restore();
       });
 
@@ -67,13 +66,13 @@ describe('login', () => {
       const localUser = validUser();
       let user = validUser();
 
-      before(() => {
+      beforeEach(() => {
         localUser.password = '123';
         user.hashPassword();
         sinon.stub(User, 'findOne').resolves(null);
       });
 
-      after(() => {
+      afterEach(() => {
         User.findOne.restore();
       });
 

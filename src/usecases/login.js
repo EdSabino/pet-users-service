@@ -21,6 +21,7 @@ async function login({ body }) {
     }
     return { success: false, message: 'user_not_found' };
   } catch (e) {
+    console.log(e)
     return { success: false, message: 'unknown_error' };
   }
 }
