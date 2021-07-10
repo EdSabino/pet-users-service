@@ -1,6 +1,7 @@
 "use strict";
 
 const createUsecase = require('../../usecases/create');
+const { database } = require('../decorators');
 
 async function create(event) {
   try {
@@ -17,4 +18,4 @@ async function create(event) {
   }
 }
 
-module.exports = create;
+module.exports = database(create);
