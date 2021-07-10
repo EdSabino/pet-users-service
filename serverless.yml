@@ -39,3 +39,11 @@ functions:
           path: /:_id
           method: get
           cors: true
+
+  update:
+    handler: handlers.update
+    events:
+      - http:
+          path: /:_id
+          method: put
+          cors: true
