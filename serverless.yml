@@ -31,3 +31,11 @@ functions:
           path: /
           method: post
           cors: true
+
+  get:
+    handler: handlers.get
+    events:
+      - http:
+          path: /:_id
+          method: get
+          cors: true
