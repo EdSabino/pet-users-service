@@ -31,3 +31,6 @@ functions:
           path: /
           method: post
           cors: true
+
+plugins:
+  - serverless-offline
