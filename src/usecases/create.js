@@ -11,6 +11,7 @@ async function create({ body }) {
     emailDispatcher('new_user', user.email, user);
     return { success: false, _id: user._id };
   } catch (e) {
+    console.log(e);
     if (e.errors) {
       return validationError(e);
     } else {

@@ -2,9 +2,15 @@
   "name": "pet-users-service",
   "version": "1.0.0",
   "license": "MIT",
+  "scripts": {
+    "test": "mocha ./test --recursive -b -t 10000"
+  },
   "dependencies": {
     "aws-sdk": "^2.942.0",
     "bcrypt": "^5.0.1",
     "mongoose": "^5.13.2"
+  },
+  "devDependencies": {
+    "mocha": "^9.0.2"
   }
 }

@@ -39,17 +39,26 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   }
-})
-
-userSchema.methods.comparePassword = function (password) {
-  return bcrypt.compare(password, this.password)
-}
-
-userSchema.pre('save', function(next) {
-  bcrypt.hash(this.password, saltRounds, (err, hash) => {
-    this.password = hash;
-    next();
-  });
 });
 
-module.exports = mongoose.model('User', userSchema)
+userSchema.methods.comparePassword = function (password) {
+  return bcrypt.compare(password, this.password);
+}
+
+userSchema.methods.hashPassword = async () => {
+  new Promise((resolve, reject) => {
+    bcrypt.hash(this.password, saltRounds, (err, hash) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(hash);
+    });
+  });
+}
+
+userSchema.pre('save', async (next) => {
+  this.password = await this.hashPassword();
+  next();
+});
+
+module.exports = mongoose.model('User', userSchema);  
