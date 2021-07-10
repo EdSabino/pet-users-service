@@ -11,6 +11,7 @@ provider:
   environment:
     MONGO_URI: mongodb+srv://adm:9XIh4bdywjikBOKu@development.khj7l.mongodb.net/pet-user-db
     SNS_TOPIC_EMAIL: ${self:custom.snsTopicEmail}
+    SECRET: segredosecreto
   iam:
     role:
       statements:

@@ -46,7 +46,7 @@ userSchema.methods.comparePassword = function (password) {
 }
 
 userSchema.pre('save', function(next) {
-  bcrypt.hash(this.password, saltRounds, (err, hash) => {
+  bcrypt.hash(this.password, saltRounds, function (err, hash) {
     this.password = hash;
     next();
   });
