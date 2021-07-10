@@ -1,11 +1,11 @@
 "use strict";
 
-const getUsecase = require('../../usecases/get');
+const listUsecase = require('../../usecases/list');
 const { database } = require('../decorators');
 
-async function get(event) {
+async function list(event) {
   try {
-    const res = await getUsecase(event);
+    const res = await listUsecase(event);
     return {
       statusCode: 200,
       body: JSON.stringify(res)
@@ -18,4 +18,4 @@ async function get(event) {
   }
 }
 
-module.exports = database(get);
+module.exports = database(list);

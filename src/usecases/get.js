@@ -11,7 +11,6 @@ async function get({ pathParameters }) {
     const user = doc.lean();
     return { success: true, user };
   } catch (e) {
-    console.log(e)
     return { success: false, message: 'user_not_found' };
   }
 }

@@ -47,3 +47,11 @@ functions:
           path: /:_id
           method: put
           cors: true
+
+  list:
+    handler: handlers.list
+    events:
+      - http:
+          path: /
+          method: get
+          cors: true
