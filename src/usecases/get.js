@@ -7,6 +7,7 @@ async function get({ pathParameters }) {
   if (!user) {
     throw { success: false, message: 'user_not_found' };
   }
+  delete user.password;
   return { success: true, user };
 }
 

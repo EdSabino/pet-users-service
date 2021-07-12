@@ -8,6 +8,7 @@ async function list({ queryStringParameters: { page } }) {
     const docs = users.lean();
     return { success: true, docs, paginate: { page, count: 10 }};
   } catch (e) {
+    console.log(e)
     throw { success: false, message: 'user_not_found' };
   }
 }
