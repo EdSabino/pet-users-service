@@ -11,9 +11,10 @@ const createTokenFromUser = user => {
 }
 
 async function login({ body }) {
-  const user = await User.findOne({ email: body.email });
+  const parsed = JSON.parse(body);
+  const user = await User.findOne({ email: parsed.email });
   if (user) {
-    if (await user.comparePassword(body.password)) {
+    if (await user.comparePassword(parsed.password)) {
       return { success: true, token: createTokenFromUser(user) };
     } else {
       throw { success: false, message: 'wrong_password' };

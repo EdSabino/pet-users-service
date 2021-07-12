@@ -22,12 +22,12 @@ describe('login', () => {
       });
 
       it('should return success', async () => {
-        const result = await loginUsecase({ body: localUser });
+        const result = await loginUsecase({ body: JSON.stringify(localUser) });
         assert(result.success);
       });
 
       it('should return new user', async () => {
-        const result = await loginUsecase({ body: localUser });
+        const result = await loginUsecase({ body: JSON.stringify(localUser) });
         jwt.verify(result.token, process.env.SECRET, (err) => {
           assert(!err)
         });
@@ -51,7 +51,7 @@ describe('login', () => {
 
       it('should return error', async () => {
         try {
-          await loginUsecase({ body: localUser });
+          await loginUsecase({ body: JSON.stringify(localUser) });
         } catch (e) {
           assert(!e.success);
         }
@@ -59,7 +59,7 @@ describe('login', () => {
 
       it('should return error', async () => {
         try {
-          await loginUsecase({ body: localUser });
+          await loginUsecase({ body: JSON.stringify(localUser) });
         } catch (e) {
           assert.strictEqual(e.message, 'wrong_password');
         }
@@ -68,7 +68,6 @@ describe('login', () => {
 
     describe('when wrong email', () => {
       const localUser = loginUser();
-      let user = validUser();
 
       beforeEach(() => {
         localUser.password = '123';
@@ -81,7 +80,7 @@ describe('login', () => {
 
       it('should return error', async () => {
         try {
-          await loginUsecase({ body: localUser });
+          await loginUsecase({ body: JSON.stringify(localUser) });
         } catch (e) {
           assert(!e.success);
         }
@@ -89,7 +88,7 @@ describe('login', () => {
 
       it('should return error', async () => {
         try {
-          await loginUsecase({ body: localUser });
+          await loginUsecase({ body: JSON.stringify(localUser) });
         } catch (e) {
           assert.strictEqual(e.message, 'user_not_found');
         }
