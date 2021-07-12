@@ -10,7 +10,7 @@ describe('update', () => {
       let user = validUser();
 
       before(() => {
-        sinon.stub(User, 'updateOne').resolves(user);
+        sinon.stub(User, 'updateOne').resolves({ ok: 1 });
       });
 
       after(() => {
@@ -18,13 +18,13 @@ describe('update', () => {
       });
 
       it('should return success', async () => {
-        const result = await updateUsecase({ body: user, pathParameters: { _id: '123' }});
+        const result = await updateUsecase({ body: JSON.stringify(user), pathParameters: { _id: '123' }});
         assert(result.success);
       });
 
       it('should return new user', async () => {
-        const result = await updateUsecase({ body: user, pathParameters: { _id: '123' }});
-        assert.strictEqual(result.user, user);
+        const result = await updateUsecase({ body: JSON.stringify(user), pathParameters: { _id: '123' }});
+        assert.strictEqual(result._id, '123');
       });
     });
 
@@ -42,7 +42,7 @@ describe('update', () => {
 
       it('should return failure', async () => {
         try {
-          await updateUsecase({ body: user, pathParameters: { _id: '60e8f0f210be8900082d8b17' }});
+          await updateUsecase({ body: JSON.stringify(user), pathParameters: { _id: '60e8f0f210be8900082d8b17' }});
         } catch (e) {
           assert.strictEqual(e.success, false);
         }
@@ -50,7 +50,7 @@ describe('update', () => {
 
       it('should return error on name', async () => {
         try {
-          await updateUsecase({ body: user, pathParameters: { _id: '60e8f0f210be8900082d8b17' }});
+          await updateUsecase({ body: JSON.stringify(user), pathParameters: { _id: '60e8f0f210be8900082d8b17' }});
         } catch (e) {
           assert.strictEqual(e.error_fields.name, 'name_required');
         }
