@@ -11,6 +11,7 @@ async function get(event) {
       body: JSON.stringify(res)
     }
   } catch (err) {
+    console.log(err)
     return {
       statusCode: 404,
       body: JSON.stringify(err.body)
