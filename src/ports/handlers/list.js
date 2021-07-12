@@ -11,7 +11,7 @@ async function list(event) {
       body: JSON.stringify(res)
     }
   } catch (err) {
-    console.log(e);
+    console.log(err);
     return {
       statusCode: 400,
       body: JSON.stringify(err.body)
