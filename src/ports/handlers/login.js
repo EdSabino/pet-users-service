@@ -13,7 +13,7 @@ async function login(event) {
   } catch (err) {
     return {
       statusCode: 401,
-      body: JSON.stringify(err.body)
+      body: JSON.stringify(err)
     }
   }
 }

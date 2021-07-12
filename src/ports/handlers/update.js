@@ -13,7 +13,7 @@ async function update(event) {
   } catch (err) {
     return {
       statusCode: 400,
-      body: JSON.stringify(err.body)
+      body: JSON.stringify(err)
     }
   }
 }
