@@ -3,16 +3,13 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-exports.validUser = () => ({
+const validUser = () => ({
   name: 'Eduardo Sabino',
   email: 'eduardoaikin@gmail.com',
-  password: 'parameterst0re1324',
+  password: '$2b$10$DPtaucbLO6nIltVKQBQhFOEhIeCPidTVDc5/1cf68RWh8b0vXIIya',
   permissions: [],
   lean () {
     return this;
-  },
-  async hashPassword () {
-    this.password = await bcrypt.hash(this.password, saltRounds);
   },
   comparePassword (password) {
     return bcrypt.compare(password, this.password);
@@ -21,3 +18,11 @@ exports.validUser = () => ({
     return this;
   }
 });
+
+exports.loginUser = () => {
+  const user = validUser();
+  user.password = 'parameterst0re1324';
+  return user;
+}
+
+exports.validUser = validUser;

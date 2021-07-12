@@ -38,7 +38,7 @@ functions:
     handler: handlers.get
     events:
       - http:
-          path: /:_id
+          path: /{_id}
           method: get
           cors: true
 
@@ -46,7 +46,7 @@ functions:
     handler: handlers.update
     events:
       - http:
-          path: /:_id
+          path: /{_id}
           method: put
           cors: true
 
@@ -65,3 +65,6 @@ functions:
           path: /login
           method: post
           cors: true
+
+plugins:
+  - serverless-offline

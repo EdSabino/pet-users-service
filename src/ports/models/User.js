@@ -45,11 +45,15 @@ userSchema.methods.comparePassword = function (password) {
   return bcrypt.compare(password, this.password);
 }
 
+userSchema.statics.publicFields = () => {
+  return '_id name email permissions email_confirmed';
+}
+
 userSchema.pre('save', function(next) {
   bcrypt.hash(this.password, saltRounds, function (err, hash) {
     this.password = hash;
     next();
-  });
+  }.bind(this));
 });
 
 module.exports = mongoose.model('User', userSchema);  

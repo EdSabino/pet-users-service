@@ -2,10 +2,11 @@
 const mongoose = require('mongoose')
 
 function database(func) {
-  mongoose.connect(process.env.MONGO_URI)
-   .then(() => console.log('Mongo connected'))
-   .catch(err => console.log(err));
-  return (args) => func(args);
+  return async (args) => {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log('Mongo connected');
+    return func(args);
+  };
 }
 
 module.exports = {

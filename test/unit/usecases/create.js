@@ -8,6 +8,7 @@ describe('create', () => {
   describe('#exec', () => {
     describe('with valid user', () => {
       let user = validUser();
+      const body = { body: JSON.stringify(user) };
 
       before(() => {
         sinon.stub(User, 'create').resolves({ email: user.email, _id: '123' });
@@ -18,12 +19,12 @@ describe('create', () => {
       });
 
       it('should return success', async () => {
-        const result = await createUsecase(user);
+        const result = await createUsecase(body);
         assert(result.success);
       });
 
       it('should return _id', async () => {
-        const result = await createUsecase(user);
+        const result = await createUsecase(body);
         assert.strictEqual(result._id, '123');
       });
     });
@@ -31,6 +32,7 @@ describe('create', () => {
     describe('with invalid user', () => {
       let user = validUser();
       user.name = undefined;
+      const body = { body: JSON.stringify(user) };
 
       before(() => {
         sinon.stub(User, 'create').rejects({ errors: { name: { properties: { message: 'name_required' }}}});
@@ -42,7 +44,7 @@ describe('create', () => {
 
       it('should return failure', async () => {
         try {
-          await createUsecase(user);
+          await createUsecase(body);
         } catch (e) {
           assert.strictEqual(e.success, false);
         }
@@ -50,7 +52,7 @@ describe('create', () => {
 
       it('should return error on name', async () => {
         try {
-          await createUsecase(user);
+          await createUsecase(body);
         } catch (e) {
           assert.strictEqual(e.error_fields.name, 'name_required');
         }

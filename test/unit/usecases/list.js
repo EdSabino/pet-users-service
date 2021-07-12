@@ -8,7 +8,7 @@ describe('list', () => {
   describe('#exec', () => {
     describe('with page 2', () => {
       before(() => {
-        sinon.stub(User, 'find').resolves({ lean() { return [] }});
+        sinon.stub(User, 'find').resolves([]);
       });
 
       after(() => {

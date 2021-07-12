@@ -1,7 +1,7 @@
 const assert = require('assert');
 const sinon = require('sinon');
 const loginUsecase = require('../../../src/usecases/login');
-const { validUser } = require('../../mocks/User');
+const { validUser, loginUser } = require('../../mocks/User');
 const User = require('../../../src/ports/models/User');
 const jwt = require('jsonwebtoken');
 
@@ -10,11 +10,10 @@ process.env.SECRET = 'segredosecreto';
 describe('login', () => {
   describe('#exec', () => {
     describe('with valid user', () => {
-      const localUser = validUser();
+      const localUser = loginUser();
       
       beforeEach(async () => {
         const user = validUser();
-        await user.hashPassword();
         sinon.stub(User, 'findOne').resolves(user);
       });
 
@@ -38,12 +37,11 @@ describe('login', () => {
     });
 
     describe('when wrong password', () => {
-      const localUser = validUser();
+      const localUser = loginUser();
       let user = validUser();
 
       beforeEach(async () => {
         localUser.password = '123';
-        await user.hashPassword();
         sinon.stub(User, 'findOne').resolves(user);
       });
 
@@ -69,12 +67,11 @@ describe('login', () => {
     });
 
     describe('when wrong email', () => {
-      const localUser = validUser();
+      const localUser = loginUser();
       let user = validUser();
 
       beforeEach(() => {
         localUser.password = '123';
-        user.hashPassword();
         sinon.stub(User, 'findOne').resolves(null);
       });
 
