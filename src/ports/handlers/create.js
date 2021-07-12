@@ -12,8 +12,8 @@ async function create(event) {
     }
   } catch (err) {
     return {
-      statusCode: err.code,
-      body: JSON.stringify(err.body)
+      statusCode: 400,
+      body: JSON.stringify(err)
     }
   }
 }

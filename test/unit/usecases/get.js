@@ -37,14 +37,20 @@ describe('get', () => {
         User.findOne.restore();
       });
 
-      it('should return failure', async () => {
-        const result = await getUsecase({ pathParameters: '' });
-        assert.strictEqual(result.success, false);
+      it('should return failure', () => {
+        getUsecase({ pathParameters: '' }).then(result => {
+          assert.strictEqual(1, 2);
+        }).catch(result => {
+          assert.strictEqual(result.success, false);
+        });
       });
 
-      it('should return error on name', async () => {
-        const result = await getUsecase({ pathParameters: '' });
-        assert.strictEqual(result.message, 'user_not_found');
+      it('should return error on name', () => {
+        getUsecase({ pathParameters: '' }).then(result => {
+          assert.strictEqual(1, 2);
+        }).catch(result => {
+          assert.strictEqual(result.message, 'user_not_found');
+        });
       });
     });
   });  

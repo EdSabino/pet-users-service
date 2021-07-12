@@ -1,21 +1,21 @@
 "use strict";
 
-const updateUsecase = require('../../usecases/update');
+const loginUsecase = require('../../usecases/login');
 const { database } = require('../decorators');
 
-async function update(event) {
+async function login(event) {
   try {
-    const res = await updateUsecase(event);
+    const res = await loginUsecase(event);
     return {
       statusCode: 200,
       body: JSON.stringify(res)
     }
   } catch (err) {
     return {
-      statusCode: 400,
+      statusCode: 401,
       body: JSON.stringify(err.body)
     }
   }
 }
 
-module.exports = database(update);
+module.exports = database(login);

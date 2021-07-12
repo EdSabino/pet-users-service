@@ -1,6 +1,7 @@
 "use strict";
 
 const jwt = require('jsonwebtoken');
+
 const User = require('../ports/models/User');
 
 const createTokenFromUser = user => {
@@ -10,20 +11,15 @@ const createTokenFromUser = user => {
 }
 
 async function login({ body }) {
-  try {
-    const user = await User.findOne({ email: body.email });
-    if (user) {
-      if (await user.comparePassword(body.password)) {
-        return { success: true, token: createTokenFromUser(user) };
-      } else {
-        return { success: false, message: 'wrong_password' };
-      }
+  const user = await User.findOne({ email: body.email });
+  if (user) {
+    if (await user.comparePassword(body.password)) {
+      return { success: true, token: createTokenFromUser(user) };
+    } else {
+      throw { success: false, message: 'wrong_password' };
     }
-    return { success: false, message: 'user_not_found' };
-  } catch (e) {
-    console.log(e)
-    return { success: false, message: 'unknown_error' };
   }
+  throw { success: false, message: 'user_not_found' };
 }
 
 module.exports = login;

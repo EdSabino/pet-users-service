@@ -11,9 +11,9 @@ async function create({ body }) {
     return { success: true, _id: user._id };
   } catch (e) {
     if (e.errors) {
-      return validationError(e);
+      throw validationError(e);
     } else {
-      return { success: false, message: 'unknown_error' };
+      throw { success: false, message: 'unknown_error' };
     }
   }
 }

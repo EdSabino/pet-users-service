@@ -12,6 +12,7 @@ provider:
     MONGO_URI: mongodb+srv://adm:9XIh4bdywjikBOKu@development.khj7l.mongodb.net/pet-user-db
     SNS_TOPIC_EMAIL: ${self:custom.snsTopicEmail}
     SECRET: segredosecreto
+    REDIS_URI: rediss://pet-services-general-001.po8pi6.0001.use1.cache.amazonaws.com:6379
   iam:
     role:
       statements:
@@ -55,4 +56,12 @@ functions:
       - http:
           path: /
           method: get
+          cors: true
+
+  login:
+    handler: handlers.login
+    events:
+      - http:
+          path: /login
+          method: post
           cors: true

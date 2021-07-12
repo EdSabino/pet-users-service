@@ -12,7 +12,7 @@ async function get(event) {
     }
   } catch (err) {
     return {
-      statusCode: err.code,
+      statusCode: 404,
       body: JSON.stringify(err.body)
     }
   }

@@ -33,16 +33,16 @@ describe('update', () => {
       user.name = undefined;
 
       before(() => {
-        sinon.stub(User, 'create').rejects({ errors: { name: { properties: { message: 'name_required' }}}});
+        sinon.stub(User, 'updateOne').rejects({ errors: { name: { properties: { message: 'name_required' }}}});
       });
 
       after(() => {
-        User.create.restore();
+        User.updateOne.restore();
       });
 
       it('should return failure', async () => {
         try {
-          await updateUsecase({ body: user, pathParameters: { _id: '123' }});
+          await updateUsecase({ body: user, pathParameters: { _id: '60e8f0f210be8900082d8b17' }});
         } catch (e) {
           assert.strictEqual(e.success, false);
         }
@@ -50,7 +50,7 @@ describe('update', () => {
 
       it('should return error on name', async () => {
         try {
-          await updateUsecase({ body: user, pathParameters: { _id: '123' }});
+          await updateUsecase({ body: user, pathParameters: { _id: '60e8f0f210be8900082d8b17' }});
         } catch (e) {
           assert.strictEqual(e.error_fields.name, 'name_required');
         }

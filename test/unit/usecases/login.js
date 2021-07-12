@@ -52,13 +52,19 @@ describe('login', () => {
       });
 
       it('should return error', async () => {
-        const result = await loginUsecase({ body: localUser });
-        assert(!result.success);
+        try {
+          await loginUsecase({ body: localUser });
+        } catch (e) {
+          assert(!e.success);
+        }
       });
 
       it('should return error', async () => {
-        const result = await loginUsecase({ body: localUser });
-        assert.strictEqual(result.message, 'wrong_password');
+        try {
+          await loginUsecase({ body: localUser });
+        } catch (e) {
+          assert.strictEqual(e.message, 'wrong_password');
+        }
       });
     });
 
@@ -77,13 +83,19 @@ describe('login', () => {
       });
 
       it('should return error', async () => {
-        const result = await loginUsecase({ body: localUser });
-        assert(!result.success);
+        try {
+          await loginUsecase({ body: localUser });
+        } catch (e) {
+          assert(!e.success);
+        }
       });
 
       it('should return error', async () => {
-        const result = await loginUsecase({ body: localUser });
-        assert.strictEqual(result.message, 'user_not_found');
+        try {
+          await loginUsecase({ body: localUser });
+        } catch (e) {
+          assert.strictEqual(e.message, 'user_not_found');
+        }
       });
     });
   });  
