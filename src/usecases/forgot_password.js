@@ -12,7 +12,7 @@ async function forgotPassword({ pathParameters }) {
     throw { success: false, message: 'user_not_found' };
   }
   const uuid = v4();
-  cache.add(uuid, user._id);
+  await cache.add(uuid, user._id);
   emailDispatcher('forgot_password', user.email, { uuid });
   return { success: true, uuid: uuid };
 }
