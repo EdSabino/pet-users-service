@@ -17,7 +17,8 @@ provider:
     securityGroupIds:
       - sg-091117135899c803e
     subnetIds:
-      - vpc-04b703cd6e9825490
+      - subnet-0b49faca3de7fe473
+      - subnet-0447a6adfb37258a5
   iam:
     role:
       statements:
