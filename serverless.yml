@@ -58,6 +58,14 @@ functions:
           method: get
           cors: true
 
+  forgot_password:
+    handler: handlers.forgotPassword
+    events:
+      - http:
+          path: /forgot_password/{email}
+          method: post
+          cors: true
+
   login:
     handler: handlers.login
     events:

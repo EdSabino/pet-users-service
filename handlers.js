@@ -5,11 +5,13 @@ const get = require('./src/ports/handlers/get');
 const update = require('./src/ports/handlers/update');
 const list = require('./src/ports/handlers/list');
 const login = require('./src/ports/handlers/login');
+const forgotPassword = require('./src/ports/handlers/forgot_password');
 
 module.exports = {
   create,
   get,
   update,
   list,
-  login
+  login,
+  forgotPassword
 };

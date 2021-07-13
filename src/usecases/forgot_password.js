@@ -7,12 +7,12 @@ const emailDispatcher = require('../ports/dispatchers/email_dispatcher');
 const cache = require('../ports/repository/cache_repository');
 
 async function forgotPassword({ pathParameters }) {
-  const user = await User.findOne({ _id: pathParameters._id });
+  const user = await User.findOne({ email: pathParameters.email });
   if (!user) {
     throw { success: false, message: 'user_not_found' };
   }
   const uuid = v4();
-  await cache.add(uuid, user._id);
+  cache.add(uuid, user._id);
   emailDispatcher('forgot_password', user.email, { uuid });
   return { success: true, uuid: uuid };
 }
