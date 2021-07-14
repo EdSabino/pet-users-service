@@ -12,13 +12,8 @@ provider:
     MONGO_URI: mongodb+srv://adm:9XIh4bdywjikBOKu@development.khj7l.mongodb.net/pet-user-db
     SNS_TOPIC_EMAIL: ${self:custom.snsTopicEmail}
     SECRET: segredosecreto
-    REDIS_URI: rediss://pet-services-general-001.po8pi6.0001.use1.cache.amazonaws.com:6379
-  vpc:
-    securityGroupIds:
-      - sg-091117135899c803e
-    subnetIds:
-      - subnet-0b49faca3de7fe473
-      - subnet-0447a6adfb37258a5
+    REDIS_HOST:
+      "Fn::GetAtt": [ElasticCacheCluster, RedisEndpoint.Address]
   iam:
     role:
       statements:
@@ -27,18 +22,6 @@ provider:
             - "sns:Publish"
           Resource:
             - ${self:custom.snsTopicEmail}
-
-        - Effect: 'Allow'
-          Action:
-            - "logs:CreateLogGroup"
-            - "logs:CreateLogStream"
-            - "logs:PutLogEvents"
-            - "ec2:CreateNetworkInterface"
-            - "ec2:DescribeNetworkInterfaces"
-            - "ec2:DeleteNetworkInterface"
-            - "ec2:AssignPrivateIpAddresses"
-            - "ec2:UnassignPrivateIpAddresses"
-          Resource: "*"
   
 custom:
   snsTopicEmail: arn:aws:sns:us-east-1:136545430773:pet-emails
@@ -46,6 +29,11 @@ custom:
 functions:
   create:
     handler: handlers.create
+    vpc:
+      securityGroupIds:
+        - "Fn::GetAtt": ServerlessSecurityGroup.GroupId
+      subnetIds:
+        - Ref: PrivateSubnet
     events:
       - http:
           path: /
@@ -91,6 +79,57 @@ functions:
           path: /login
           method: post
           cors: true
-
+resources:
+  Resources:
+    VPC:
+      Type: AWS::EC2::VPC
+      Properties:
+        CidrBlock: "10.0.0.0/16"
+    PrivateSubnet:
+      DependsOn: VPC
+      Type: AWS::EC2::Subnet
+      Properties:
+        VpcId:
+          Ref: VPC
+        AvailabilityZone: ${self:provider.region}a
+        CidrBlock: "10.0.1.0/24"
+    ServerlessCacheSubnetGroup:
+      Type: AWS::ElastiCache::SubnetGroup
+      Properties:
+        Description: "Cache Subnet Group"
+        SubnetIds:
+          - Ref: PrivateSubnet
+    ServerlessSecurityGroup:
+      DependsOn: VPC
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupDescription: SecurityGroup for Serverless Functions
+        VpcId:
+          Ref: VPC
+    ServerlessStorageSecurityGroup:
+      DependsOn: VPC
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupDescription: Ingress for Redis Cluster
+        VpcId:
+          Ref: VPC
+        SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: '6379'
+          ToPort: '6379'
+          SourceSecurityGroupId:
+            Ref: ServerlessSecurityGroup
+    ElasticCacheCluster:
+      DependsOn: ServerlessStorageSecurityGroup
+      Type: AWS::ElastiCache::CacheCluster
+      Properties:
+        AutoMinorVersionUpgrade: true
+        Engine: redis
+        CacheNodeType: ${self:custom.config.CACHE_INSTANCE_SIZE}
+        NumCacheNodes: 1
+        VpcSecurityGroupIds:
+          - "Fn::GetAtt": ServerlessStorageSecurityGroup.GroupId
+        CacheSubnetGroupName:
+          Ref: ServerlessCacheSubnetGroup
 plugins:
   - serverless-offline
