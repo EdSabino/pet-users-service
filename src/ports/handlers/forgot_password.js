@@ -1,11 +1,11 @@
 "use strict";
 
-const forgotPasswordUseCase = require('../../usecases/forgot_password');
+const forgotPasswordUsecase = require('../../usecases/forgot_password');
 const { database } = require('../decorators');
 
 async function forgotPassword(event) {
   try {
-    const res = await forgotPasswordUseCase(event);
+    const res = await forgotPasswordUsecase(event);
     return {
       statusCode: 200,
       body: JSON.stringify(res)
