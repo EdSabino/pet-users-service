@@ -29,11 +29,6 @@ custom:
 functions:
   create:
     handler: handlers.create
-    vpc:
-      securityGroupIds:
-        - "Fn::GetAtt": ServerlessSecurityGroup.GroupId
-      subnetIds:
-        - Ref: PrivateSubnet
     events:
       - http:
           path: /
@@ -66,6 +61,11 @@ functions:
 
   forgot_password:
     handler: handlers.forgotPassword
+    vpc:
+      securityGroupIds:
+        - "Fn::GetAtt": ServerlessSecurityGroup.GroupId
+      subnetIds:
+        - Ref: PrivateSubnet
     events:
       - http:
           path: /forgot_password/{email}
