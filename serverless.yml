@@ -7,6 +7,7 @@ frameworkVersion: '2'
 provider:
   name: aws
   runtime: nodejs12.x
+  region: ${opt:region, 'us-east-1'}
   lambdaHashingVersion: '20201221'
   environment:
     MONGO_URI: mongodb+srv://adm:9XIh4bdywjikBOKu@development.khj7l.mongodb.net/pet-user-db
@@ -94,7 +95,7 @@ resources:
       Properties:
         VpcId:
           Ref: VPC
-        AvailabilityZone: ${self:provider.region}a
+        AvailabilityZone: ${self:provider.region}
         CidrBlock: "10.0.1.0/24"
     ServerlessCacheSubnetGroup:
       Type: AWS::ElastiCache::SubnetGroup
