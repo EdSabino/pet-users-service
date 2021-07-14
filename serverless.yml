@@ -66,7 +66,7 @@ functions:
     handler: handlers.forgotPassword
     vpc:
       securityGroupIds:
-        - "Fn::GetAtt": ServerlessSecurityGroup.GroupId
+        - "Fn::GetAtt": [ServerlessSecurityGroup, GroupId]
       subnetIds:
         - Ref: PrivateSubnet
     events:
@@ -95,7 +95,7 @@ resources:
       Properties:
         VpcId:
           Ref: VPC
-        AvailabilityZone: ${self:provider.region}
+        AvailabilityZone: ${self:provider.region}a
         CidrBlock: "10.0.1.0/24"
     ServerlessCacheSubnetGroup:
       Type: AWS::ElastiCache::SubnetGroup
@@ -132,7 +132,7 @@ resources:
         CacheNodeType: ${self:custom.config.CACHE_INSTANCE_SIZE}
         NumCacheNodes: 1
         VpcSecurityGroupIds:
-          - "Fn::GetAtt": ServerlessStorageSecurityGroup.GroupId
+          - "Fn::GetAtt": [ServerlessStorageSecurityGroup, GroupId]
         CacheSubnetGroupName:
           Ref: ServerlessCacheSubnetGroup
 plugins:
