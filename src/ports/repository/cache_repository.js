@@ -5,7 +5,7 @@ const { promisify } = require("util");
 
 const redisHelper = {
   connect () {
-    this.client = redis.createClient(process.env.REDIS_HOST);
+    this.client = redis.createClient(`rediss://${process.env.REDIS_HOST}:6379`);
     this.get = promisify(this.client.get).bind(this.client);
     this.set = promisify(this.client.set).bind(this.client);
   }
