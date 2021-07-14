@@ -25,6 +25,8 @@ provider:
   
 custom:
   snsTopicEmail: arn:aws:sns:us-east-1:136545430773:pet-emails
+  config:
+    CACHE_INSTANCE_SIZE: cache.t2.micro
 
 functions:
   create:
@@ -79,6 +81,7 @@ functions:
           path: /login
           method: post
           cors: true
+
 resources:
   Resources:
     VPC:
