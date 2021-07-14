@@ -89,6 +89,28 @@ resources:
       Type: AWS::EC2::VPC
       Properties:
         CidrBlock: "10.0.0.0/16"
+    IP:
+      Type: AWS::EC2::EIP
+      Properties:
+        Domain: vpc
+    InternetGateway:
+      Type: AWS::EC2::InternetGateway
+    VPCGatewayAttachment:
+      Type: AWS::EC2::VPCGatewayAttachment
+      Properties:
+        VpcId:
+          Ref: VPC
+        InternetGatewayId:
+          Ref: InternetGateway
+    NatGateway:
+      Type: AWS::EC2::NatGateway
+      Properties:
+        AllocationId:
+          Fn::GetAtt:
+            - IP
+            - AllocationId
+        SubnetId:
+          Ref: PublicSubnetA
     PrivateSubnet:
       DependsOn: VPC
       Type: AWS::EC2::Subnet
@@ -97,12 +119,54 @@ resources:
           Ref: VPC
         AvailabilityZone: ${self:provider.region}a
         CidrBlock: "10.0.1.0/24"
-    ServerlessCacheSubnetGroup:
-      Type: AWS::ElastiCache::SubnetGroup
+    PublicSubnetA:
+      DependsOn: VPC
+      Type: AWS::EC2::Subnet
       Properties:
-        Description: "Cache Subnet Group"
-        SubnetIds:
-          - Ref: PrivateSubnet
+        VpcId:
+          Ref: VPC
+        AvailabilityZone: ${self:provider.region}a
+        CidrBlock: "10.0.2.0/24"
+    PrivateRouteTable:
+      Type: AWS::EC2::RouteTable
+      Properties:
+        VpcId:
+          Ref: VPC
+    PrivateRoute:
+      Type: AWS::EC2::Route
+      Properties:
+        RouteTableId:
+          Ref: PrivateRouteTable
+        DestinationCidrBlock: 0.0.0.0/0
+        NatGatewayId:
+          Ref: NatGateway
+    PublicRouteTable:
+      Type: AWS::EC2::RouteTable
+      Properties:
+        VpcId:
+          Ref: VPC
+    PublicRoute:
+      Type: AWS::EC2::Route
+      Properties:
+        RouteTableId:
+          Ref: PublicRouteTable
+        DestinationCidrBlock: 0.0.0.0/0
+        GatewayId:
+          Ref: InternetGateway
+    SubnetRouteTableAssociationLambdaPrivateA:
+      Type: AWS::EC2::SubnetRouteTableAssociation
+      Properties:
+        SubnetId:
+          Ref: PrivateSubnet
+        RouteTableId:
+          Ref: PrivateRouteTable
+    SubnetRouteTableAssociationLambdaPublicA:
+      Type: AWS::EC2::SubnetRouteTableAssociation
+      Properties:
+        SubnetId:
+          Ref: PublicSubnetA
+        RouteTableId:
+          Ref: PublicRouteTable
     ServerlessSecurityGroup:
       DependsOn: VPC
       Type: AWS::EC2::SecurityGroup
@@ -123,6 +187,12 @@ resources:
           ToPort: '6379'
           SourceSecurityGroupId:
             Ref: ServerlessSecurityGroup
+    ServerlessCacheSubnetGroup:
+      Type: AWS::ElastiCache::SubnetGroup
+      Properties:
+        Description: "Cache Subnet Group"
+        SubnetIds:
+        - Ref: PrivateSubnet
     ElasticCacheCluster:
       DependsOn: ServerlessStorageSecurityGroup
       Type: AWS::ElastiCache::CacheCluster
