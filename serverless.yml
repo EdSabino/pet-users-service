@@ -36,7 +36,7 @@ custom:
 
 functions:
   auth:
-    handler: handlers.auth
+    handler: handlers.authorize
   create:
     handler: handlers.create
     events:
@@ -92,6 +92,13 @@ functions:
     events:
       - http:
           path: /confirm_email/{uuid}
+          method: put
+          cors: true
+  change_password:
+    handler: handlers.changePassword
+    events:
+      - http:
+          path: /change_password/{uuid}
           method: put
           cors: true
 

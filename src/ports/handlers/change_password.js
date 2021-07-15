@@ -1,11 +1,11 @@
 "use strict";
 
-const confirmEmailUsecase = require('../../usecases/confirm_email');
+const changePasswordUsecase = require('../../usecases/change_password');
 const { database } = require('../decorators');
 
-async function confirmEmail(event) {
+async function changePassword(event) {
   try {
-    const res = await confirmEmailUsecase(event);
+    const res = await changePasswordUsecase(event);
     return {
       statusCode: 200,
       body: JSON.stringify(res)
@@ -18,4 +18,4 @@ async function confirmEmail(event) {
   }
 }
 
-module.exports = database(confirmEmail);
+module.exports = database(changePassword);

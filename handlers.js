@@ -8,6 +8,7 @@ const login = require('./src/ports/handlers/login');
 const forgotPassword = require('./src/ports/handlers/forgot_password');
 const recycle = require('./src/ports/handlers/recycle');
 const confirmEmail = require('./src/ports/handlers/confirm_email');
+const changePassword = require('./src/ports/handlers/change_password');
 const { authorize } = require('authorization-pet-services');
 
 module.exports = {
@@ -19,5 +20,6 @@ module.exports = {
   forgotPassword,
   recycle,
   confirmEmail,
-  auth: (event, context, callback) => authorize(process.env.SECRET, event, context, callback),
+  changePassword,
+  authorize
 };

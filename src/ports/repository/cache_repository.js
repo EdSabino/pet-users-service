@@ -13,7 +13,7 @@ const redisHelper = {
 
 exports.add = async (key, value) => {
   redisHelper.connect();
-  return redisHelper.set(key, value);
+  return redisHelper.set(key, value, 'EX', 60 * 60);
 }
 
 exports.get = async (key) => {

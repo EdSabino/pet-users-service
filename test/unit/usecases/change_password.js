@@ -1,13 +1,13 @@
 const assert = require('assert');
 const sinon = require('sinon');
-const confirmEmailUsecase = require('../../../src/usecases/confirm_email');
+const changePasswordUsecase = require('../../../src/usecases/change_password');
 const { validUser } = require('../../mocks/User');
 const User = require('../../../src/ports/models/User');
 const cache = require('../../../src/ports/repository/cache_repository');
 
-describe('confirm_email', () => {
+describe('change_password', () => {
   describe('#exec', () => {
-    describe('with valid email', () => {
+    describe('with valid uuid', () => {
       const user = validUser();
 
       before(() => {
@@ -21,12 +21,12 @@ describe('confirm_email', () => {
       });
 
       it('should return success', async () => {
-        const result = await confirmEmailUsecase({ pathParameters: { uuid: '' }});
+        const result = await changePasswordUsecase({ pathParameters: { uuid: '' }, body: { password: '' }});
         assert(result.success);
       });
 
       it('should return user', async () => {
-        const result = await confirmEmailUsecase({ pathParameters: { uuid: '' }});
+        const result = await changePasswordUsecase({ pathParameters: { uuid: '' }, body: { password: '' }});
         assert.strictEqual(result._id, user._id);
       });
     });
@@ -44,7 +44,7 @@ describe('confirm_email', () => {
 
       it('should return failure', async () => {
         try {
-          await confirmEmailUsecase({ pathParameters: { uuid: '' }});
+          await changePasswordUsecase({ pathParameters: { uuid: '' }, body: { password: '' }});
           assert(false);
         } catch (e) {
           assert.strictEqual(e.success, false);
@@ -53,7 +53,7 @@ describe('confirm_email', () => {
 
       it('should return error on name', async () => {
         try {
-          await confirmEmailUsecase({ pathParameters: { uuid: '' }});
+          await changePasswordUsecase({ pathParameters: { uuid: '' }, body: { password: '' }});
           assert(false);
         } catch (e) {
           assert.strictEqual(e.message, 'user_not_found');
