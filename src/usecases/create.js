@@ -15,6 +15,7 @@ async function create({ body }) {
     await cache.add(uuid, user._id);
     return { success: true, _id: user._id };
   } catch (e) {
+    console.log(e);
     if (e.errors) {
       throw validationError(e);
     } else {
