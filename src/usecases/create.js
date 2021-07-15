@@ -12,8 +12,8 @@ async function create({ body }) {
     const user = await User.create(JSON.parse(body));
     const uuid = v4();
     emailDispatcher('new_user', user.email, { uuid });
-    await cache.add(uuid, user._id);
-    return { success: true, _id: user._id };
+    await cache.add(uuid, user._id.toString());
+    return { success: true, _id: user._id.toString() };
   } catch (e) {
     console.log(e);
     if (e.errors) {
