@@ -9,6 +9,11 @@ provider:
   runtime: nodejs12.x
   region: ${opt:region, 'us-east-1'}
   lambdaHashingVersion: '20201221'
+  vpc:
+    securityGroupIds:
+      - "Fn::GetAtt": [ServerlessSecurityGroup, GroupId]
+    subnetIds:
+      - Ref: PrivateSubnet
   environment:
     MONGO_URI: mongodb+srv://adm:9XIh4bdywjikBOKu@development.khj7l.mongodb.net/pet-user-db
     SNS_TOPIC_EMAIL: ${self:custom.snsTopicEmail}
@@ -62,11 +67,6 @@ functions:
           cors: true
   forgot_password:
     handler: handlers.forgotPassword
-    vpc:
-      securityGroupIds:
-        - "Fn::GetAtt": [ServerlessSecurityGroup, GroupId]
-      subnetIds:
-        - Ref: PrivateSubnet
     events:
       - http:
           path: /forgot_password/{email}
