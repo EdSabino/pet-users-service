@@ -1,14 +1,7 @@
 "use strict";
 
-const jwt = require('jsonwebtoken');
-
 const User = require('../ports/models/User');
-
-const createTokenFromUser = user => {
-  delete user.password;
-  delete user.__v;
-  return jwt.sign(user.toObject(), process.env.SECRET, { expiresIn: '1h' });
-}
+const createTokenFromUser = require('./token_from_user');
 
 async function login({ body }) {
   const parsed = JSON.parse(body);
