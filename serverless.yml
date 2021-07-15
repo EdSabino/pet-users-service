@@ -87,6 +87,13 @@ functions:
           method: put
           cors: true
           authorizer: auth
+  confirm_email:
+    handler: handlers.confirmEmail
+    events:
+      - http:
+          path: /confirm_email/{uuid}
+          method: put
+          cors: true
 
 resources:
   Resources:

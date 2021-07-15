@@ -86,11 +86,40 @@ describe('login', () => {
         }
       });
 
-      it('should return error', async () => {
+      it('should return error message', async () => {
         try {
           await loginUsecase({ body: JSON.stringify(localUser) });
         } catch (e) {
           assert.strictEqual(e.message, 'user_not_found');
+        }
+      });
+    });
+
+    describe('when wrong email not confirmed', () => {
+      const localUser = loginUser();
+
+      beforeEach(() => {
+        localUser.email_confirmed = false;
+        sinon.stub(User, 'findOne').resolves(validUser());
+      });
+
+      afterEach(() => {
+        User.findOne.restore();
+      });
+
+      it('should return error', async () => {
+        try {
+          await loginUsecase({ body: JSON.stringify(localUser) });
+        } catch (e) {
+          assert(!e.success);
+        }
+      });
+
+      it('should return error message', async () => {
+        try {
+          await loginUsecase({ body: JSON.stringify(localUser) });
+        } catch (e) {
+          assert.strictEqual(e.message, 'email_not_confirmed');
         }
       });
     });

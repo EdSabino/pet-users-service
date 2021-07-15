@@ -8,7 +8,11 @@ async function login({ body }) {
   const user = await User.findOne({ email: parsed.email });
   if (user) {
     if (await user.comparePassword(parsed.password)) {
-      return { success: true, token: createTokenFromUser(user) };
+      if (user.email_confirmed) {
+        return { success: true, token: createTokenFromUser(user) };
+      } else {
+        throw { success: false, message: 'email_not_confirmed' };
+      }
     } else {
       throw { success: false, message: 'wrong_password' };
     }

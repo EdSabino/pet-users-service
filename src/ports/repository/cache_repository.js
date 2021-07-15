@@ -16,3 +16,7 @@ exports.add = async (key, value) => {
   return redisHelper.set(key, value);
 }
 
+exports.get = async (key) => {
+  redisHelper.connect();
+  return redisHelper.get(key);
+}
