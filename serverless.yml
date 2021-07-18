@@ -1,5 +1,5 @@
 org: edsabino
-app: pet-users-service
+app: pet
 service: pet-users-service
 
 frameworkVersion: '2'
