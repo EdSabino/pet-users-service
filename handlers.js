@@ -9,7 +9,7 @@ const forgotPassword = require('./src/ports/handlers/forgot_password');
 const recycle = require('./src/ports/handlers/recycle');
 const confirmEmail = require('./src/ports/handlers/confirm_email');
 const changePassword = require('./src/ports/handlers/change_password');
-const { authorize } = require('authorization-pet-services');
+const authorize = require('./src/ports/handlers/authorize');
 
 module.exports = {
   create,

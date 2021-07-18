@@ -11,8 +11,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.2",
     "redis": "^3.1.2",
-    "uuid": "^8.3.2",
-    "authorization-pet-services": "git://github.com/EdSabino/authorization-serverless.git"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "mocha": "^9.0.2",

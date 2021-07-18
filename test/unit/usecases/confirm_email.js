@@ -12,12 +12,12 @@ describe('confirm_email', () => {
 
       before(() => {
         sinon.stub(User, 'findOneAndUpdate').resolves(user);
-        sinon.stub(cache, 'get').resolves('123');
+        sinon.stub(cache, 'getAndRemove').resolves('123');
       });
 
       after(() => {
         User.findOneAndUpdate.restore();
-        cache.get.restore();
+        cache.getAndRemove.restore();
       });
 
       it('should return success', async () => {
@@ -34,12 +34,12 @@ describe('confirm_email', () => {
     describe('with invalid email', () => {
       before(() => {
         sinon.stub(User, 'findOneAndUpdate').resolves(null);
-        sinon.stub(cache, 'get').resolves('123');
+        sinon.stub(cache, 'getAndRemove').resolves('123');
       });
 
       after(() => {
         User.findOneAndUpdate.restore();
-        cache.get.restore();
+        cache.getAndRemove.restore();
       });
 
       it('should return failure', async () => {
