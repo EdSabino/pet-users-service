@@ -30,7 +30,7 @@ provider:
             - ${self:custom.snsTopicEmail}
   
 custom:
-  snsTopicEmail: arn:aws:sns:us-east-1:136545430773:pet-emails
+  snsTopicEmail: !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiId
   config:
     CACHE_INSTANCE_SIZE: cache.t2.micro
 
@@ -41,70 +41,98 @@ functions:
     handler: handlers.create
     events:
       - http:
-          path: /
+          path: /users
           method: post
           cors: true
   get:
     handler: handlers.get
     events:
       - http:
-          path: /{_id}
+          path: /users/{_id}
           method: get
           cors: true
   update:
     handler: handlers.update
     events:
       - http:
-          path: /{_id}
+          path: /users/{_id}
           method: put
           cors: true
   list:
     handler: handlers.list
     events:
       - http:
-          path: /
+          path: /users
           method: get
           cors: true
   forgot_password:
     handler: handlers.forgotPassword
     events:
       - http:
-          path: /forgot_password/{email}
+          path: /users/forgot_password/{email}
           method: post
           cors: true
   login:
     handler: handlers.login
     events:
       - http:
-          path: /login
+          path: /users/login
           method: post
           cors: true
   recycle:
     handler: handlers.recycle
     events:
       - http:
-          path: /recycle
+          path: /users/recycle
           method: put
           cors: true
           authorizer: auth
+
   confirm_email:
     handler: handlers.confirmEmail
     events:
       - http:
-          path: /confirm_email/{uuid}
+          path: /users/confirm_email/{uuid}
           method: put
           cors: true
+
   change_password:
     handler: handlers.changePassword
     events:
       - http:
-          path: /change_password/{uuid}
+          path: /users/change_password/{uuid}
           method: put
           cors: true
 
 resources:
   Resources:
     ${file(resources.yml)}
+
+  Outputs:
+    ApiGatewayRestApiId:
+      Value:
+        Ref: ApiGatewayRestApi
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayRestApiId
+    
+    ApiGatewayRestApiRootResourceId:
+      Value:
+          Fn::GetAtt: [ApiGatewayRestApi, RootResourceId]
+      Export:
+        Name: ${self:custom.stage}-ExtApiGatewayRestApiRootResourceId
+
+    ServerlessSecurityGroupId:
+      Value:
+        - "Fn::GetAtt": [ServerlessSecurityGroup, GroupId]
+      Export:
+        Name: ${self:custom.stage}-ServerlessSecurityGroupId
+
+    SubnetIds:
+      Value:
+        Ref: PrivateSubnet
+      Export:
+        Name: ${self:custom.stage}-SubnetIds
+
 
 plugins:
   - serverless-offline
