@@ -31,7 +31,7 @@ provider:
   
 custom:
   stage: ${opt:stage, self:provider.stage}
-  snsTopicEmail: !ImportValue ${self:custom.stage}-ExtApiGatewayRestApiId
+  snsTopicEmail: !ImportValue ${self:custom.stage}-TopicEmails
   config:
     CACHE_INSTANCE_SIZE: cache.t2.micro
 
