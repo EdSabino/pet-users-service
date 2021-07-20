@@ -126,7 +126,7 @@ resources:
       Export:
         Name: ${self:custom.stage}-AuthorizeARN
       Value:
-        Fn::GetAtt: AuthFunction.Arn
+        Fn::GetAtt: AuthLambdaFunction.Arn
 
 plugins:
   - serverless-offline
