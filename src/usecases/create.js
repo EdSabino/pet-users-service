@@ -18,6 +18,7 @@ async function create({ body }) {
     if (e.errors) {
       throw validationError(e);
     } else {
+      console.log(e);
       throw { success: false, message: 'unknown_error' };
     }
   }
