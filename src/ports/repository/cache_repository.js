@@ -24,6 +24,7 @@ exports.getAndRemove = async key => {
 }
 
 exports.add = async (key, value) => {
+  redisHelper.connect();
   return redisHelper.set(key, value, 'EX', 60 * 60);
 }
 
