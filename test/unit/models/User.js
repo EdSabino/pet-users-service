@@ -15,6 +15,16 @@ describe('User', () => {
     });
   });
 
+  describe('#defaults', () => {
+    it('should have email_confirmed as false', () => {
+      assert(!user.email_confirmed);
+    });
+
+    it('should have superadmin as false', () => {
+      assert(!user.superadmin);
+    });
+  });
+
   describe('#comparePassword', () => {
     it('should compare the same origin string as equal', async () => {
       assert(await user.comparePassword(loginUser().password));

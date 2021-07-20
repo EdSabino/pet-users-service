@@ -14,6 +14,7 @@ describe('login', () => {
       
       beforeEach(async () => {
         const user = validUser();
+        user.email_confirmed = true;
         sinon.stub(User, 'findOne').resolves(user);
       });
 
@@ -32,8 +33,6 @@ describe('login', () => {
           assert(!err)
         });
       });
-
-      
     });
 
     describe('when wrong password', () => {
@@ -99,7 +98,6 @@ describe('login', () => {
       const localUser = loginUser();
 
       beforeEach(() => {
-        localUser.email_confirmed = false;
         sinon.stub(User, 'findOne').resolves(validUser());
       });
 
@@ -110,6 +108,7 @@ describe('login', () => {
       it('should return error', async () => {
         try {
           await loginUsecase({ body: JSON.stringify(localUser) });
+          assert(false);
         } catch (e) {
           assert(!e.success);
         }
@@ -118,6 +117,7 @@ describe('login', () => {
       it('should return error message', async () => {
         try {
           await loginUsecase({ body: JSON.stringify(localUser) });
+          assert(false);
         } catch (e) {
           assert.strictEqual(e.message, 'email_not_confirmed');
         }

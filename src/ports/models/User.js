@@ -38,6 +38,10 @@ const userSchema = new mongoose.Schema({
   email_confirmed: {
     type: Boolean,
     default: false
+  },
+  superadmin: {
+    type: Boolean,
+    default: false
   }
 });
 
