@@ -18,7 +18,6 @@ const generatePolicy = (principalId, resource) => {
 
 module.exports.execute = ({ authorizationToken, methodArn }) => {
   if (!authorizationToken) {
-    console.log('ntem')
     throw 'Unauthorized';
   }
 
