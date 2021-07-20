@@ -122,5 +122,11 @@ resources:
       Export:
         Name: ${self:custom.stage}-ExtApiGatewayRestApiRootResourceId
 
+    AuthorizeLambdaFunction:
+      Export:
+        Name: ${self:custom.stage}-AuthorizeARN
+      Value:
+        Fn::GetAtt: AuthFunction.Arn
+
 plugins:
   - serverless-offline
