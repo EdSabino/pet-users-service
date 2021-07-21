@@ -4,6 +4,7 @@ const createUsecase = require('../../../src/usecases/create');
 const { validUser } = require('../../mocks/User');
 const User = require('../../../src/ports/models/User');
 const cache = require('../../../src/ports/repository/cache_repository');
+const snsRepository = require('../../../src/ports/repository/sns_repository');
 
 describe('create', () => {
   describe('#exec', () => {
@@ -14,11 +15,13 @@ describe('create', () => {
       before(() => {
         sinon.stub(User, 'create').resolves({ email: user.email, _id: '123' });
         sinon.stub(cache, 'add').resolves();
+        sinon.stub(snsRepository, 'publishMessage').resolves();
       });
 
       after(() => {
         User.create.restore();
         cache.add.restore();
+        snsRepository.publishMessage.restore();
       });
 
       it('should return success', async () => {
