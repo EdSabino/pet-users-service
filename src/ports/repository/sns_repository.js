@@ -2,7 +2,9 @@
 
 const aws = require('aws-sdk');
 
-const sns = new aws.SNS();
+const sns = new aws.SNS({
+  region: 'us-east-1'
+});
 
 exports.publishMessage = async (topic, message) => sns
   .publish({
