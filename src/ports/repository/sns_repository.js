@@ -11,6 +11,5 @@ exports.publishMessage = async (topic, message) => sns
     Message: JSON.stringify(message),
     TopicArn: topic
   })
-  .promise()
-  .catch((e) => console.log(e));
+  .promise();
 
