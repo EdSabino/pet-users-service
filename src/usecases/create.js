@@ -8,6 +8,7 @@ const { validationError } = require('../errors/validation_errors');
 const cache = require('../ports/repository/cache_repository');
 
 async function create({ body }) {
+  console.log(process.env)
   try {
     const user = await User.create(JSON.parse(body));
     const uuid = v4();
