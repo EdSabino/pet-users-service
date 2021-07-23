@@ -7,7 +7,7 @@ const validUser = () => ({
   name: 'Eduardo Sabino',
   email: 'eduardoaikin@gmail.com',
   password: '$2b$10$DPtaucbLO6nIltVKQBQhFOEhIeCPidTVDc5/1cf68RWh8b0vXIIya',
-  permissions: [],
+  permissions: {},
   lean () {
     return this;
   },

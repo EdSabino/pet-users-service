@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 
 const saltRounds = 10;
-const VALID_PERMISSIONS = [];
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -28,12 +27,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'password_required']
   },
   permissions: {
-    type: Array,
-    items: String,
-    validate: {
-      validator: (v) => v.every(elem => VALID_PERMISSIONS.includes(elem)),
-      message: 'invalid_permission'
-    }
+    type: Object
   },
   email_confirmed: {
     type: Boolean,
