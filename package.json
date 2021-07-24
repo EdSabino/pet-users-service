@@ -11,7 +11,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.2",
     "redis": "^3.1.2",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "shared": "git+https://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:x-oauth-basic@github.com/EdSabino/pet-shared.git"
   },
   "devDependencies": {
     "mocha": "^9.0.2",

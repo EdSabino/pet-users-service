@@ -1,6 +1,7 @@
 "use strict";
 
 const UpdateUsecase = require('../../usecases/update');
-const { database, handler } = require('../decorators');
+const { decorators: { database, handler } } = require('shared');
+const mongoose = require('mongoose');
 
-module.exports = database(handler(UpdateUsecase, 200, 400));
+module.exports = database(handler(UpdateUsecase, 200, 400), mongoose);
