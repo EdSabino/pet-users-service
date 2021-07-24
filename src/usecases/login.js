@@ -3,7 +3,7 @@
 const User = require('../ports/models/User');
 const createTokenFromUser = require('./token_from_user');
 
-async function login({ body }) {
+exports.execute = async ({ body }) => {
   const parsed = JSON.parse(body);
   const user = await User.findOne({ email: parsed.email });
   if (user) {
@@ -19,5 +19,3 @@ async function login({ body }) {
   }
   throw { success: false, message: 'user_not_found' };
 }
-
-module.exports = login;

@@ -3,7 +3,7 @@
 const User = require('../ports/models/User');
 const { validationError } = require('../errors/validation_errors');
 
-async function update({ body, pathParameters }) {
+exports.execute = async ({ body, pathParameters }) => {
   try {
     const result = await User.updateOne({ _id: pathParameters._id }, JSON.parse(body));
     if (result.ok == 0) {
@@ -20,5 +20,3 @@ async function update({ body, pathParameters }) {
     }
   }
 }
-
-module.exports = update;

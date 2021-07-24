@@ -1,21 +1,6 @@
 "use strict";
 
-const getUsecase = require('../../usecases/get');
-const { database } = require('../decorators');
+const GetUsecase = require('../../usecases/get');
+const { database, handler } = require('../decorators');
 
-async function get(event) {
-  try {
-    const res = await getUsecase(event);
-    return {
-      statusCode: 200,
-      body: JSON.stringify(res)
-    }
-  } catch (err) {
-    return {
-      statusCode: 404,
-      body: JSON.stringify(err)
-    }
-  }
-}
-
-module.exports = database(get);
+module.exports = database(handler(GetUsecase, 200, 404));

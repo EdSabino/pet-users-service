@@ -1,22 +1,6 @@
 "use strict";
 
-const forgotPasswordUsecase = require('../../usecases/forgot_password');
-const { database } = require('../decorators');
+const ForgotPasswordUsecase = require('../../usecases/forgot_password');
+const { database, handler } = require('../decorators');
 
-async function forgotPassword(event) {
-  try {
-    const res = await forgotPasswordUsecase(event);
-    return {
-      statusCode: 200,
-      body: JSON.stringify(res)
-    }
-  } catch (err) {
-    console.log(err)
-    return {
-      statusCode: 400,
-      body: JSON.stringify(err)
-    }
-  }
-}
-
-module.exports = database(forgotPassword);
+module.exports = database(handler(ForgotPasswordUsecase, 200, 400));

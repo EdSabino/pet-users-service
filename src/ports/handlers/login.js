@@ -1,21 +1,6 @@
 "use strict";
 
-const loginUsecase = require('../../usecases/login');
-const { database } = require('../decorators');
+const LoginUsecase = require('../../usecases/login');
+const { database, handler } = require('../decorators');
 
-async function login(event) {
-  try {
-    const res = await loginUsecase(event);
-    return {
-      statusCode: 200,
-      body: JSON.stringify(res)
-    }
-  } catch (err) {
-    return {
-      statusCode: 401,
-      body: JSON.stringify(err)
-    }
-  }
-}
-
-module.exports = database(login);
+module.exports = database(handler(LoginUsecase, 200, 401));

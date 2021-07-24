@@ -1,21 +1,6 @@
 "use strict";
 
-const listUsecase = require('../../usecases/list');
-const { database } = require('../decorators');
+const ListUsecase = require('../../usecases/list');
+const { database, handler } = require('../decorators');
 
-async function list(event) {
-  try {
-    const res = await listUsecase(event);
-    return {
-      statusCode: 200,
-      body: JSON.stringify(res)
-    }
-  } catch (err) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify(err)
-    }
-  }
-}
-
-module.exports = database(list);
+module.exports = database(handler(ListUsecase, 200, 400));
