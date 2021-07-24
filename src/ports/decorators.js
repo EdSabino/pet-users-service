@@ -10,6 +10,25 @@ function database(func) {
   };
 }
 
+function handler (UseCase, success, failure) {
+  return async (event) => {
+    try {
+      const res = await UseCase.execute(event);
+      return {
+        statusCode: success,
+        body: JSON.stringify(res)
+      }
+    } catch (err) {
+      return {
+        statusCode: failure,
+        body: JSON.stringify(err)
+      }
+    }
+  }
+}
+
+
 module.exports = {
-  database
+  database,
+  handler
 }

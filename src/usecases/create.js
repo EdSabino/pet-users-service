@@ -7,7 +7,7 @@ const emailDispatcher = require('../ports/dispatchers/email_dispatcher');
 const { validationError } = require('../errors/validation_errors');
 const cache = require('../ports/repository/cache_repository');
 
-async function create({ body }) {
+exports.execute = async ({ body }) => {
   try {
     const user = await User.create(JSON.parse(body));
     const uuid = v4();
@@ -23,5 +23,3 @@ async function create({ body }) {
     }
   }
 }
-
-module.exports = create;
