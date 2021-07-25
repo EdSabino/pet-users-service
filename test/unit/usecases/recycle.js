@@ -1,6 +1,6 @@
 const assert = require('assert');
 const sinon = require('sinon');
-const recycleUsecase = require('../../../src/usecases/recycle');
+const { execute } = require('../../../src/usecases/recycle');
 const { validUser } = require('../../mocks/User');
 const User = require('../../../src/ports/models/User');
 const jwt = require('jsonwebtoken');
@@ -21,12 +21,12 @@ describe('recycle', () => {
       });
 
       it('should return success', async () => {
-        const result = await recycleUsecase(req);
+        const result = await execute(req);
         assert(result.success);
       });
 
       it('should return user', async () => {
-        const result = await recycleUsecase(req);
+        const result = await execute(req);
         jwt.verify(result.token, process.env.SECRET, (err) => {
           assert(!err)
         });
@@ -44,7 +44,7 @@ describe('recycle', () => {
 
       it('should return failure', async () => {
         try {
-          await recycleUsecase(req)
+          await execute(req)
         } catch (e) {
           assert.strictEqual(e.success, false);
         }
@@ -52,7 +52,7 @@ describe('recycle', () => {
 
       it('should return error on name', async () => {
         try {
-          await recycleUsecase(req)
+          await execute(req)
         } catch (e) {
           assert.strictEqual(e.message, 'user_not_found');
         }

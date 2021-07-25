@@ -1,6 +1,6 @@
 const assert = require('assert');
 const sinon = require('sinon');
-const createUsecase = require('../../../src/usecases/create');
+const { execute } = require('../../../src/usecases/create');
 const { validUser } = require('../../mocks/User');
 const User = require('../../../src/ports/models/User');
 const cache = require('../../../src/ports/repository/cache_repository');
@@ -25,12 +25,12 @@ describe('create', () => {
       });
 
       it('should return success', async () => {
-        const result = await createUsecase(body);
+        const result = await execute(body);
         assert(result.success);
       });
 
       it('should return _id', async () => {
-        const result = await createUsecase(body);
+        const result = await execute(body);
         assert.strictEqual(result._id, '123');
       });
     });
@@ -50,7 +50,7 @@ describe('create', () => {
 
       it('should return failure', async () => {
         try {
-          await createUsecase(body);
+          await execute(body);
         } catch (e) {
           assert.strictEqual(e.success, false);
         }
@@ -58,7 +58,7 @@ describe('create', () => {
 
       it('should return error on name', async () => {
         try {
-          await createUsecase(body);
+          await execute(body);
         } catch (e) {
           assert.strictEqual(e.error_fields.name, 'name_required');
         }

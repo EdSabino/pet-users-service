@@ -1,6 +1,6 @@
 const assert = require('assert');
 const sinon = require('sinon');
-const loginUsecase = require('../../../src/usecases/login');
+const { execute } = require('../../../src/usecases/login');
 const { validUser, loginUser } = require('../../mocks/User');
 const User = require('../../../src/ports/models/User');
 const jwt = require('jsonwebtoken');
@@ -23,12 +23,12 @@ describe('login', () => {
       });
 
       it('should return success', async () => {
-        const result = await loginUsecase({ body: JSON.stringify(localUser) });
+        const result = await execute({ body: JSON.stringify(localUser) });
         assert(result.success);
       });
 
       it('should return new user', async () => {
-        const result = await loginUsecase({ body: JSON.stringify(localUser) });
+        const result = await execute({ body: JSON.stringify(localUser) });
         jwt.verify(result.token, process.env.SECRET, (err) => {
           assert(!err)
         });
@@ -50,7 +50,7 @@ describe('login', () => {
 
       it('should return error', async () => {
         try {
-          await loginUsecase({ body: JSON.stringify(localUser) });
+          await execute({ body: JSON.stringify(localUser) });
         } catch (e) {
           assert(!e.success);
         }
@@ -58,7 +58,7 @@ describe('login', () => {
 
       it('should return error', async () => {
         try {
-          await loginUsecase({ body: JSON.stringify(localUser) });
+          await execute({ body: JSON.stringify(localUser) });
         } catch (e) {
           assert.strictEqual(e.message, 'wrong_password');
         }
@@ -79,7 +79,7 @@ describe('login', () => {
 
       it('should return error', async () => {
         try {
-          await loginUsecase({ body: JSON.stringify(localUser) });
+          await execute({ body: JSON.stringify(localUser) });
         } catch (e) {
           assert(!e.success);
         }
@@ -87,7 +87,7 @@ describe('login', () => {
 
       it('should return error message', async () => {
         try {
-          await loginUsecase({ body: JSON.stringify(localUser) });
+          await execute({ body: JSON.stringify(localUser) });
         } catch (e) {
           assert.strictEqual(e.message, 'user_not_found');
         }
@@ -107,7 +107,7 @@ describe('login', () => {
 
       it('should return error', async () => {
         try {
-          await loginUsecase({ body: JSON.stringify(localUser) });
+          await execute({ body: JSON.stringify(localUser) });
           assert(false);
         } catch (e) {
           assert(!e.success);
@@ -116,7 +116,7 @@ describe('login', () => {
 
       it('should return error message', async () => {
         try {
-          await loginUsecase({ body: JSON.stringify(localUser) });
+          await execute({ body: JSON.stringify(localUser) });
           assert(false);
         } catch (e) {
           assert.strictEqual(e.message, 'email_not_confirmed');

@@ -1,6 +1,6 @@
 const assert = require('assert');
 const sinon = require('sinon');
-const getUsecase = require('../../../src/usecases/get');
+const { execute } = require('../../../src/usecases/get');
 const { validUser } = require('../../mocks/User');
 const User = require('../../../src/ports/models/User');
 
@@ -18,12 +18,12 @@ describe('get', () => {
       });
 
       it('should return success', async () => {
-        const result = await getUsecase({ pathParameters: '' });
+        const result = await execute({ pathParameters: '' });
         assert(result.success);
       });
 
       it('should return user', async () => {
-        const result = await getUsecase({ pathParameters: '' });
+        const result = await execute({ pathParameters: '' });
         assert.strictEqual(result.user, user);
       });
     });
@@ -38,7 +38,7 @@ describe('get', () => {
       });
 
       it('should return failure', () => {
-        getUsecase({ pathParameters: '' }).then(result => {
+        execute({ pathParameters: '' }).then(result => {
           assert.strictEqual(1, 2);
         }).catch(result => {
           assert.strictEqual(result.success, false);
@@ -46,7 +46,7 @@ describe('get', () => {
       });
 
       it('should return error on name', () => {
-        getUsecase({ pathParameters: '' }).then(result => {
+        execute({ pathParameters: '' }).then(result => {
           assert.strictEqual(1, 2);
         }).catch(result => {
           assert.strictEqual(result.message, 'user_not_found');

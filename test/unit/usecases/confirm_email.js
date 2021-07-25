@@ -1,6 +1,6 @@
 const assert = require('assert');
 const sinon = require('sinon');
-const confirmEmailUsecase = require('../../../src/usecases/confirm_email');
+const { execute } = require('../../../src/usecases/confirm_email');
 const { validUser } = require('../../mocks/User');
 const User = require('../../../src/ports/models/User');
 const cache = require('../../../src/ports/repository/cache_repository');
@@ -21,12 +21,12 @@ describe('confirm_email', () => {
       });
 
       it('should return success', async () => {
-        const result = await confirmEmailUsecase({ pathParameters: { uuid: '' }});
+        const result = await execute({ pathParameters: { uuid: '' }});
         assert(result.success);
       });
 
       it('should return user', async () => {
-        const result = await confirmEmailUsecase({ pathParameters: { uuid: '' }});
+        const result = await execute({ pathParameters: { uuid: '' }});
         assert.strictEqual(result._id, user._id);
       });
     });
@@ -44,7 +44,7 @@ describe('confirm_email', () => {
 
       it('should return failure', async () => {
         try {
-          await confirmEmailUsecase({ pathParameters: { uuid: '' }});
+          await execute({ pathParameters: { uuid: '' }});
           assert(false);
         } catch (e) {
           assert.strictEqual(e.success, false);
@@ -53,7 +53,7 @@ describe('confirm_email', () => {
 
       it('should return error on name', async () => {
         try {
-          await confirmEmailUsecase({ pathParameters: { uuid: '' }});
+          await execute({ pathParameters: { uuid: '' }});
           assert(false);
         } catch (e) {
           assert.strictEqual(e.message, 'user_not_found');
