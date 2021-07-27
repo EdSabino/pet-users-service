@@ -18,6 +18,7 @@ const generatePolicy = (principalId, resource) => {
 
 module.exports.execute = ({ authorizationToken, methodArn }) => {
   if (!authorizationToken) {
+    console.log('CANT FIND TOKEN');
     throw 'Unauthorized';
   }
 
@@ -25,11 +26,13 @@ module.exports.execute = ({ authorizationToken, methodArn }) => {
   const tokenValue = tokenParts[1];
 
   if (!(tokenParts[0].toLowerCase() === 'bearer' && tokenValue)) {
+    console.log('TOKEN ON WRONG FORMAT');
     throw 'Unauthorized';
   }
 
   return jwt.verify(tokenValue, process.env.SECRET, (verifyError, decoded) => new Promise((resolve, reject) => {
     if (verifyError) {
+      console.log(verifyError);
       return reject('Unauthorized');
     }
     return resolve(generatePolicy(decoded._id, methodArn));
