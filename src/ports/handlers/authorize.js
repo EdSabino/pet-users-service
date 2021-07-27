@@ -1,11 +1,11 @@
 const AuthorizeUsecase = require('../../usecases/authorize');
 
-async function authorize(event, context, callback) {
+async function authorize(event, context) {
   try {
     const res = await AuthorizeUsecase.execute(event);
-    return callback(null, res);
+    return res;
   } catch (err) {
-    return callback(err);
+    throw err;
   }
 }
 
