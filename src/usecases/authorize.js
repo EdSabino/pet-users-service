@@ -32,6 +32,8 @@ module.exports.execute = ({ authorizationToken, methodArn }) => {
 
   return jwt.verify(tokenValue, process.env.SECRET, (verifyError, decoded) => new Promise((resolve, reject) => {
     if (verifyError) {
+      console.log(tokenValue);
+      console.log(process.env.SECRET);
       console.log(verifyError);
       return reject('Unauthorized');
     }
