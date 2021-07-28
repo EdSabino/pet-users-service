@@ -1,7 +1,12 @@
 const AuthorizeUsecase = require('../../usecases/authorize');
 
 function authorize(event, context, callback) {
-  AuthorizeUsecase.execute(event).then(result => callback(null, result)).catch(err => callback(err));
+  try {
+    const res = await AuthorizeUsecase.execute(event);
+    return res;
+  } catch (err) {
+    throw err;
+  }
 }
 
 module.exports = authorize;
