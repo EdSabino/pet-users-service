@@ -13,7 +13,9 @@ const generatePolicy = (principalId, resource, claims) => {
         }
       ]
     },
-    claims
+    context: {
+      stringKey: JSON.stringify(claims)
+    }
   };
 };
 
