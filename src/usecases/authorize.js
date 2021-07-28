@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const generatePolicy = (principalId, resource) => {
+const generatePolicy = (principalId, resource, claims) => {
   return {
     principalId: principalId,
     policyDocument: {
@@ -13,6 +13,7 @@ const generatePolicy = (principalId, resource) => {
         }
       ]
     },
+    claims
   };
 };
 
@@ -37,6 +38,6 @@ module.exports.execute = ({ authorizationToken, methodArn }) => {
       console.log(verifyError);
       return reject('Unauthorized');
     }
-    return resolve(generatePolicy(decoded._id, methodArn));
+    return resolve(generatePolicy(decoded._id, methodArn, decoded));
   }));
 };
