@@ -9,6 +9,7 @@ exports.execute = async ({ body }) => {
   if (user) {
     if (await user.comparePassword(parsed.password)) {
       if (user.email_confirmed) {
+        delete user.password;
         return { success: true, token: createTokenFromUser(user) };
       } else {
         throw { success: false, message: 'email_not_confirmed' };

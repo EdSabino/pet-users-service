@@ -44,7 +44,7 @@ userSchema.methods.comparePassword = function (password) {
 }
 
 userSchema.statics.publicFields = () => {
-  return '_id name email permissions email_confirmed';
+  return '_id name email permissions email_confirmed superadmin';
 }
 
 userSchema.pre('save', function(next) {
