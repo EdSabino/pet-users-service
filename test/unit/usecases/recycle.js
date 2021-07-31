@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 describe('recycle', () => {
   describe('#exec', () => {
     const user = validUser();
-    const req = { requestContext: { authorizer: { claims: user }}}
+    const req = { requestContext: { authorizer: { stringKey: JSON.stringify(user) }}}
 
     describe('with valid auth', () => {
 
