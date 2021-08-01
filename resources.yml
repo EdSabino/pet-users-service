@@ -18,6 +18,15 @@ AuthFailureGatewayResponse:
     RestApiId:
       Ref: 'ApiGatewayRestApi'
     StatusCode: '401'
+AuthFailureGatewayResponseForbidden:
+  Type: 'AWS::ApiGateway::GatewayResponse'
+  Properties:
+    ResponseParameters:
+      gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+      gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+    RestApiId:
+      Ref: 'ApiGatewayRestApi'
+    StatusCode: '403'
 VPC:
   Type: AWS::EC2::VPC
   Properties:
