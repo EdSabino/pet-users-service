@@ -20,7 +20,7 @@ describe('AuthorizeUsecase', () => {
 
       it('should return resource', async () => {
         const autho = await AuthorizeUsecase.execute(event);
-        assert.strictEqual(autho.policyDocument.Statement[0].Resource, '123');
+        assert.strictEqual(autho.policyDocument.Statement[0].Resource, '*');
       });
     });
 
