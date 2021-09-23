@@ -21,7 +21,7 @@ export async function forgotPassword(event, context) {
 }
 
 export async function login(event, context) {
-  return createHandler().login(event, context, { body: {}});
+  return createHandler().login(event, context);
 }
 
 export async function recycle(event, context) {
