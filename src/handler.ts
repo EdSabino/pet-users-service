@@ -29,6 +29,10 @@ export class UsersHandler {
   model: any;
   services: any;
 
+  public get mongooseService() {
+    return this.services.mongooseService;
+  }
+
   @wrapper()
   @parseUser()
   @isSuperAdmin()
