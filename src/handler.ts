@@ -89,9 +89,10 @@ export class UsersHandler {
 
   @wrapper()
   @database()
-  @action(true)
-  async login(_: any, __: any, { body }) {
-    return this.services.accessService.login(body);
+  @action(false)
+  async login(event: any, __: any) {
+    console.log(event.body)
+    return this.services.accessService.login(JSON.parse(event.body));
   }
 
   @wrapper()
