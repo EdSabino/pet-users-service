@@ -11,17 +11,22 @@ export class AccessService {
   model: any;
 
   async login (body: any) {
-    const user = await this.model.findOne({ email: body.email });
-    if (user) {
-      if (await user.comparePassword(body.password)) {
-        if (user.email_confirmed) {
-          return { token: this.createTokenFromUser(user) };
+    try {
+      const user = await this.model.findOne({ email: body.email });
+      if (user) {
+        if (await user.comparePassword(body.password)) {
+          if (user.email_confirmed) {
+            return { token: this.createTokenFromUser(user) };
+          }
+          this.error('email_not_confirmed');
         }
-        this.error('email_not_confirmed');
+        this.error('wrong_password');
       }
-      this.error('wrong_password');
+      this.error('user_not_found');
+    } catch (e) {
+      console.log(e);
+      throw e;
     }
-    this.error('user_not_found');
   }
 
   async recycle ({ requestContext }) {
