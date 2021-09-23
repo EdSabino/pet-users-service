@@ -1,14 +1,6 @@
 import bcrypt from 'bcrypt';
 import { model, Schema } from 'mongoose';
-
-export interface User {
-  name: string;
-  email: string;
-  password: string;
-  permissions: Object;
-  email_confirmed: boolean;
-  superadmin: boolean;
-}
+import { User } from './User.interface';
 
 const saltRounds = 10;
 
