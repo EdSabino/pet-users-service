@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 import { model, Schema } from 'mongoose';
 import { User } from './User.interface';
 
@@ -39,7 +39,7 @@ const userSchema = new Schema<User>({
 });
 
 userSchema.methods.comparePassword = function (password) {
-  return bcrypt.compare(password, this.password);
+  return compare(password, this.password);
 }
 
 userSchema.statics.publicFields = () => {
@@ -47,7 +47,7 @@ userSchema.statics.publicFields = () => {
 }
 
 userSchema.pre('save', function(next) {
-  bcrypt.hash(this.password, saltRounds, function (err, hash) {
+  hash(this.password, saltRounds, function (err, hash) {
     this.password = hash;
     next();
   }.bind(this));

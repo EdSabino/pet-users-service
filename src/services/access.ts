@@ -1,6 +1,6 @@
 import User from "../models/User";
 import { inject } from "shared";
-import jwt from 'jsonwebtoken';
+import { sign } from 'jsonwebtoken';
 
 @inject({
   model: User,
@@ -41,7 +41,7 @@ export class AccessService {
   private createTokenFromUser(user: any) {
     delete user.password;
     delete user.__v;
-    return jwt.sign(user.toObject(), process.env.SECRET, { expiresIn: '1h' });
+    return sign(user.toObject(), process.env.SECRET, { expiresIn: '1h' });
   }
 
   private error(message: string) {

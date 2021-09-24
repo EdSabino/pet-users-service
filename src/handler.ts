@@ -7,7 +7,6 @@ import {
   isSuperAdmin,
   parseUser,
   wrapper,
-  MongooseService,
   inject,
   action,
 } from 'shared';
@@ -15,11 +14,11 @@ import User from './models/User';
 import { AuthorizeService } from './services/authorize';
 import { UserService } from './services/user';
 import { AccessService } from './services/access';
+import { connect } from 'mongoose';
 
 @inject({
   model: User,
   services: {
-    mongooseService: MongooseService,
     authorizeService: AuthorizeService,
     userService: UserService,
     accessService: AccessService
@@ -30,7 +29,9 @@ export class UsersHandler {
   services: any;
 
   public get mongooseService() {
-    return this.services.mongooseService;
+    return {
+      connect: (val: string) => connect(val)
+    }
   }
 
   @wrapper()
