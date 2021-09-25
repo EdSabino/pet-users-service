@@ -30,6 +30,7 @@ export class AccessService {
   }
 
   async recycle ({ requestContext }) {
+    console.log(requestContext)
     requestContext.authorizer.claims = JSON.parse(requestContext.authorizer.stringKey);
     const user = await this.model.findOne({ _id: requestContext.authorizer.claims._id }, this.model.publicFields());
     if (!user) {
