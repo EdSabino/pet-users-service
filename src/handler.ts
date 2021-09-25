@@ -104,6 +104,7 @@ export class UsersHandler {
   @database()
   @action(false)
   async recycle(event: any, __: any) {
+    console.log(event)
     return this.services.accessService.recycle(event);
   }
 }
