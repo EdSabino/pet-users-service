@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import { verify } from 'jsonwebtoken';
 
 export class AuthorizeService {
   call({ authorizationToken }) {
@@ -15,7 +15,7 @@ export class AuthorizeService {
       throw 'Unauthorized';
     }
   
-    return jwt.verify(tokenValue, process.env.SECRET, (verifyError, decoded) => new Promise((resolve, reject) => {
+    return verify(tokenValue, process.env.SECRET, (verifyError, decoded) => new Promise((resolve, reject) => {
       if (verifyError) {
         console.log(tokenValue);
         console.log(process.env.SECRET);
