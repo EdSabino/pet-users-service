@@ -3,6 +3,8 @@ import { inject } from "shared";
 import { CacheRepository } from '../repositories/cache_repository';
 import { EmailRepository } from '../repositories/email_repository';
 import { v4 } from 'uuid';
+import { UserDto } from "../dto/create_user.dto";
+import { AnimalDto } from "../dto/animal.dto";
 
 @inject({
   model: User,
@@ -29,8 +31,8 @@ export class UserService {
     return { _id: user._id };
   }
 
-  async createUser ({ body }) {
-    const user = await User.create(JSON.parse(body));
+  async createUser (body: UserDto) {
+    const user = await User.create(body);
     const uuid = v4();
     await this.services.emailRepository.dispatch('new_user', user.email, { uuid });
     await this.services.cache.add(uuid, user._id.toString());
@@ -44,6 +46,23 @@ export class UserService {
     await this.services.cache.add(uuid, user?._id.toString());
     this.services.emailRepository.dispatch('forgot_password', user?.email, { uuid });
     return { success: true, uuid: uuid };
+  }
+
+  async addAnimal (body: AnimalDto, loggedUser: any) {
+    const result = await User.updateOne({ _id: loggedUser._id }, {
+      $push: {
+        animals: body
+      }
+    });
+
+    if (result.ok == 0) {
+      throw {
+        statusCode: 404,
+        body: { success: false, message: `user_not_found` }
+      };
+    }
+
+    return { success: true };
   }
 
   private validateUser(user: any) {

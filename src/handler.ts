@@ -17,6 +17,8 @@ import { UserService } from './services/user';
 import { AccessService } from './services/access';
 import { connect } from 'mongoose';
 import { LoginDto } from './dto/login.dto';
+import { UserDto } from './dto/create_user.dto';
+import { AnimalDto } from './dto/animal.dto';
 
 @inject({
   model: User,
@@ -80,10 +82,11 @@ export class UsersHandler {
   @parseUser()
   @isSuperAdmin()
   @database()
-  async create(event: any, _: any) {
+  @body(UserDto)
+  async create(event: any, _: any, extraArgs: any) {
     return {
       statusCode: 201,
-      body: this.services.userService.createUser(event)
+      body: this.services.userService.createUser(extraArgs.body)
     }
   }
 
@@ -109,5 +112,14 @@ export class UsersHandler {
   async recycle(event: any, __: any) {
     console.log(event)
     return this.services.accessService.recycle(event);
+  }
+
+  @wrapper()
+  @parseUser()
+  @database()
+  @action()
+  @body(AnimalDto)
+  async addAnimal(event: any, __: any, extraArgs: any) {
+    return this.services.user.addAnimal(extraArgs.body, event.requestContext.authorizer.claims);
   }
 }
