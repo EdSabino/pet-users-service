@@ -1,4 +1,4 @@
-import { IsEmail, IsString, IsNotEmpty, MinLength } from 'shared';
+import { IsEmail, IsString, IsNotEmpty, MinLength, IsBoolean } from 'shared';
 
 export class LoginDto {
   @IsEmail()

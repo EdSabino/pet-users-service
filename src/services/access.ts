@@ -11,13 +11,13 @@ export class AccessService {
   services: any;
   model: any;
 
-  async login (body: LoginDto) {
+  async login (body: LoginDto, { headers }) {
     try {
       const user = await this.model.findOne({ email: body.email });
       if (user) {
         if (await user.comparePassword(body.password)) {
           if (user.email_confirmed) {
-            return { token: this.createTokenFromUser(user) };
+            return { token: this.createTokenFromUser(user, headers['plataform-origin'] === 'app') };
           }
           this.error('email_not_confirmed');
         }
@@ -30,20 +30,20 @@ export class AccessService {
     }
   }
 
-  async recycle ({ requestContext }) {
+  async recycle ({ requestContext, headers }) {
     console.log(requestContext)
     requestContext.authorizer.claims = JSON.parse(requestContext.authorizer.stringKey);
     const user = await this.model.findOne({ _id: requestContext.authorizer.claims._id }, this.model.publicFields());
     if (!user) {
       this.error('user_not_found');
     }
-    return { token: this.createTokenFromUser(user) };
+    return { token: this.createTokenFromUser(user, headers['plataform-origin'] === 'app') };
   }
 
-  private createTokenFromUser(user: any) {
+  private createTokenFromUser(user: any, rememberMe: boolean) {
     delete user.password;
     delete user.__v;
-    return sign(user.toObject(), process.env.SECRET, { expiresIn: '24h' });
+    return sign(user.toObject(), process.env.SECRET, { expiresIn: rememberMe ? '8760h' : '24h' });
   }
 
   private error(message: string) {
