@@ -9,12 +9,14 @@ import {
   wrapper,
   inject,
   action,
+  body,
 } from 'shared';
 import User from './models/User';
 import { AuthorizeService } from './services/authorize';
 import { UserService } from './services/user';
 import { AccessService } from './services/access';
 import { connect } from 'mongoose';
+import { LoginDto } from './dto/login.dto';
 
 @inject({
   model: User,
@@ -61,15 +63,15 @@ export class UsersHandler {
 
   @wrapper()
   @database()
-  @action(true)
-  async changePassword(event: any, _: any, { body }) {
-    return this.services.userService.changePassword(event, body);
+  @action()
+  async changePassword(event: any, _: any) {
+    return this.services.userService.changePassword(event, JSON.parse(event.body));
   }
 
   
   @wrapper()
   @database()
-  @action(false)
+  @action()
   async confirmPassword(event: any, _: any) {
     return this.services.userService.confirmPassword(event);
   }
@@ -87,22 +89,23 @@ export class UsersHandler {
 
   @wrapper()
   @database()
-  @action(false)
+  @action()
   async forgotPassword(event: any, _: any) {
     return this.services.userService.forgotPassword(event);
   }
 
   @wrapper()
   @database()
-  @action(false)
-  async login(event: any, __: any) {
+  @action()
+  @body(LoginDto)
+  async login(event: any, __: any, extraArgs: any) {
     console.log(event.body)
-    return this.services.accessService.login(JSON.parse(event.body));
+    return this.services.accessService.login(extraArgs.body);
   }
 
   @wrapper()
   @database()
-  @action(false)
+  @action()
   async recycle(event: any, __: any) {
     console.log(event)
     return this.services.accessService.recycle(event);

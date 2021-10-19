@@ -1,6 +1,7 @@
 import User from "../models/User";
 import { inject } from "shared";
 import { sign } from 'jsonwebtoken';
+import { LoginDto } from "../dto/login.dto";
 
 @inject({
   model: User,
@@ -10,7 +11,7 @@ export class AccessService {
   services: any;
   model: any;
 
-  async login (body: any) {
+  async login (body: LoginDto) {
     try {
       const user = await this.model.findOne({ email: body.email });
       if (user) {
@@ -42,7 +43,7 @@ export class AccessService {
   private createTokenFromUser(user: any) {
     delete user.password;
     delete user.__v;
-    return sign(user.toObject(), process.env.SECRET, { expiresIn: '1h' });
+    return sign(user.toObject(), process.env.SECRET, { expiresIn: '24h' });
   }
 
   private error(message: string) {

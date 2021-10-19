@@ -5,7 +5,7 @@ function createHandler() {
 }
 
 export async function changePassword(event, context) {
-  return createHandler().changePassword(event, context, { body: {}});
+  return createHandler().changePassword(event, context);
 }
 
 export async function confirmPassword(event, context) {
@@ -21,7 +21,7 @@ export async function forgotPassword(event, context) {
 }
 
 export async function login(event, context) {
-  return createHandler().login(event, context);
+  return createHandler().login(event, context, {});
 }
 
 export async function recycle(event, context) {
