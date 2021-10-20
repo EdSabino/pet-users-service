@@ -105,6 +105,15 @@ functions:
           method: put
           cors: true
 
+  add_animal:
+    handler: handlers.addAnimal
+    events:
+      - http:
+          path: /users/add_animal
+          method: put
+          cors: true
+          authorizer: auth
+
 resources:
   Resources:
     ${file(resources.yml)}

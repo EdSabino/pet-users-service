@@ -6,7 +6,6 @@ export class LoginDto {
   @IsNotEmpty()
   email: string;
 
-  @IsEmail()
   @IsString()
   @IsNotEmpty()
   @MinLength(8)

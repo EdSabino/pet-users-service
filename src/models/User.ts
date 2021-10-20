@@ -1,6 +1,7 @@
 import { compare, hash } from 'bcrypt';
 import { model, Schema } from 'mongoose';
 import { User } from './User.interface';
+import AnimalSchema from './Animal';
 
 const saltRounds = 10;
 
@@ -35,6 +36,13 @@ const userSchema = new Schema<User>({
   superadmin: {
     type: Boolean,
     default: false
+  },
+  animals: {
+    type: Array,
+    default: [],
+    items: {
+      type: AnimalSchema
+    }
   }
 });
 

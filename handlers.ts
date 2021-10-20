@@ -13,7 +13,11 @@ export async function confirmPassword(event, context) {
 }
 
 export async function create(event, context) {
-  return createHandler().create(event, context);
+  return createHandler().create(event, context, {});
+}
+
+export async function addAnimal(event, context) {
+  return createHandler().addAnimal(event, context, {});
 }
 
 export async function forgotPassword(event, context) {
