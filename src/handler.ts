@@ -102,8 +102,8 @@ export class UsersHandler {
   @action()
   @body(LoginDto)
   async login(event: any, __: any, extraArgs: any) {
-    console.log(event.body)
-    return this.services.accessService.login(extraArgs.body);
+    console.log(extraArgs.body)
+    return this.services.accessService.login(extraArgs.body, event);
   }
 
   @wrapper()
