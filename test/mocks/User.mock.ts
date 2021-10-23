@@ -1,5 +1,6 @@
 import { define } from "cooky-cutter";
 import { User } from "../../src/models/User.interface";
+import { animal } from "./Animal.mock";
 
 export const user = define<User>({
   name: () => 'Establishment',
@@ -8,4 +9,5 @@ export const user = define<User>({
   permissions: () => {},
   email_confirmed: true,
   superadmin: false,
+  animals: (anmls) => anmls || [animal()]
 });

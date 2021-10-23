@@ -34,7 +34,9 @@ export class UsersHandler {
 
   public get mongooseService() {
     return {
-      connect: (val: string) => connect(val)
+      connect: (val: string) => {
+        connect(val)
+      }
     }
   }
 
