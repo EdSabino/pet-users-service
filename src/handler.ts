@@ -62,6 +62,7 @@ export class UsersHandler {
   async list(_: any, __: any) {}
 
   async authorize(event: any, _: any) {
+    console.log(event)
     return this.services.authorizeService.call(event);
   }
 
