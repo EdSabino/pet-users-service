@@ -43,7 +43,8 @@ const userSchema = new Schema<User>({
     items: {
       type: AnimalSchema
     }
-  }
+  },
+  image_id: String,
 });
 
 userSchema.methods.comparePassword = function (password) {

@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength, ValidateNested } from "class-validator";
+import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength, ValidateNested } from "class-validator";
 import { AnimalDto } from "./animal.dto";
 
 export class UserDto {
@@ -18,5 +18,9 @@ export class UserDto {
 
   @ValidateNested()
   animals: AnimalDto[]
+
+  @IsString()
+  @IsOptional()
+  image_id: string;
 }
 

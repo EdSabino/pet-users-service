@@ -9,5 +9,6 @@ export const user = define<User>({
   permissions: () => {},
   email_confirmed: true,
   superadmin: false,
-  animals: (anmls) => anmls || [animal()]
+  animals: (anmls) => anmls || [animal()],
+  image_id: '',
 });
