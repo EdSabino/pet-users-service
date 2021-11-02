@@ -1,5 +1,5 @@
-import User from "../src/models/User";
-import { user } from "./mocks/User.mock";
+import User from "../../src/models/User";
+import { user } from "../mocks/User.mock";
 
 describe('User', () => {
   describe('with valid establishment', () => {

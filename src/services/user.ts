@@ -32,7 +32,7 @@ export class UserService {
   }
 
   async createUser (body: UserDto) {
-    const user = await User.create(body);
+    const user = await this.model.create(body);
     const uuid = v4();
     await this.services.emailRepository.dispatch('new_user', user.email, { uuid });
     await this.services.cache.add(uuid, user._id.toString());

@@ -7,5 +7,6 @@ export interface User {
   permissions: Object;
   email_confirmed: boolean;
   superadmin: boolean;
-  animals: Animal[]
+  animals: Animal[];
+  image_id: string;
 }
