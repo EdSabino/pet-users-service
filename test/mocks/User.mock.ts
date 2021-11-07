@@ -1,13 +1,21 @@
-import { define } from "cooky-cutter";
+import { define, extend } from "cooky-cutter";
 import { User } from "../../src/models/User.interface";
 import { animal } from "./Animal.mock";
+import { event, Event } from "./Event.mock";
+
+type UserEvent = {} & Event;
 
 export const user = define<User>({
   name: () => 'Establishment',
   email: () => 'eduardoaikin@gmail.com',
-  password: () => '1324',
+  password: () => 'senhafortissima',
   permissions: () => {},
   email_confirmed: true,
   superadmin: false,
-  animals: (anmls) => anmls || [animal()]
+  animals: () => [],
+  image_id: '',
+});
+
+export const userEvent = extend<Event, UserEvent>(event, {
+  body: JSON.stringify(user())
 });

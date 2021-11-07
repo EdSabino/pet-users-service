@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["jest"],
     "preserveConstEnums": true,
     "strictNullChecks": true,
     "sourceMap": true,

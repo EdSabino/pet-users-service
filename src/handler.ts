@@ -84,14 +84,12 @@ export class UsersHandler {
   }
 
   @wrapper()
-  @parseUser()
-  @isSuperAdmin()
   @database()
   @body(UserDto)
   async create(event: any, _: any, extraArgs: any) {
     return {
       statusCode: 201,
-      body: this.services.userService.createUser(extraArgs.body)
+      body: await this.services.userService.createUser(extraArgs.body)
     }
   }
 
