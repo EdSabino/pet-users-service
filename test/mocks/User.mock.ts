@@ -14,6 +14,7 @@ export const user = define<User>({
   superadmin: false,
   animals: () => [],
   image_id: '',
+  establishments: () => [],
 });
 
 export const userEvent = extend<Event, UserEvent>(event, {

@@ -31,6 +31,7 @@ const animalSchema = new Schema<Animal>({
       default: 'medium'
     }
   },
+  image_id: String
 });
 
 export default animalSchema;

@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, Min } from "class-validator";
 import { AnimalType, Hair, Size } from "../models/Animal.interface";
 
 export class AnimalDto {
@@ -8,6 +8,7 @@ export class AnimalDto {
 
   @IsNumber()
   @IsOptional()
+  @Min(0)
   age: number;
 
   @IsEnum(AnimalType)
@@ -18,4 +19,8 @@ export class AnimalDto {
 
   @IsEnum(Size)
   size: Size;
+
+  @IsOptional()
+  @IsString()
+  image_id: string;
 }
