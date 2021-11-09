@@ -139,4 +139,13 @@ export class UsersHandler {
   async addEstablishment(event: any, __: any, extraArgs: any) {
     return this.services.userService.addEstablishment(extraArgs.body, event.requestContext.authorizer.claims);
   }
+
+  @wrapper()
+  @parseUser()
+  @database()
+  @action()
+  async me(event: any, _: any, __: any) {
+    const user = event.requestContext.authorizer.claims;
+    return this.services.userService.getUser(user);
+  }
 }

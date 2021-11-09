@@ -23,6 +23,15 @@ export class UserService {
   services: Services;
   model: any;
 
+  async getUser(currentUser: any) {
+    const user = await this.model.findOne({ _id: currentUser._id });
+    delete user.password;
+    return {
+      success: true,
+      user: user.toObject()
+    }
+  }
+
   async changePassword ({ pathParameters }, body) {
     const _id = await this.services.cache.getAndRemove(pathParameters.uuid);
     const user = await this.model.findOneAndUpdate({ _id }, { password: body.password });

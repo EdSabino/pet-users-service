@@ -38,6 +38,14 @@ custom:
 functions:
   auth:
     handler: handlers.authorize
+  me:
+    handler: handlers.me
+    events:
+      - http:
+          path: /me
+          method: get
+          cors: true
+          authorizer: auth
   create:
     handler: handlers.create
     events:

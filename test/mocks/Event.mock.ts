@@ -17,7 +17,8 @@ export interface Event {
 }
 
 export const authorizer = define<Authorizer>({
-  stringKey: () => JSON.stringify({ 
+  stringKey: () => JSON.stringify({
+    _id: '1324',
     superadmin: true,
     permissions: {}
   }),
