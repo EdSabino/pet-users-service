@@ -112,12 +112,19 @@ functions:
           path: /users/change_password/{uuid}
           method: put
           cors: true
-
   add_animal:
     handler: handlers.addAnimal
     events:
       - http:
           path: /users/add_animal
+          method: put
+          cors: true
+          authorizer: auth
+  add_establishment:
+    handler: handlers.addEstablishment
+    events:
+      - http:
+          path: /users/add_establishment
           method: put
           cors: true
           authorizer: auth
