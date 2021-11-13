@@ -4,6 +4,10 @@ function createHandler() {
   return new UsersHandler();
 }
 
+export async function me(event, context) {
+  return createHandler().me(event, context, {});
+}
+
 export async function changePassword(event, context) {
   return createHandler().changePassword(event, context);
 }
@@ -18,6 +22,10 @@ export async function create(event, context) {
 
 export async function addAnimal(event, context) {
   return createHandler().addAnimal(event, context, {});
+}
+
+export async function addEstablishment(event, context) {
+  return createHandler().addEstablishment(event, context, {});
 }
 
 export async function forgotPassword(event, context) {

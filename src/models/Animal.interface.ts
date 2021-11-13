@@ -4,6 +4,7 @@ export interface Animal {
   animal_type: AnimalType;
   hair: Hair;
   size: Size;
+  image_id: String;
 }
 
 export enum Size {

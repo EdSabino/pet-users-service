@@ -5,6 +5,12 @@ import { EmailRepository } from '../repositories/email_repository';
 import { v4 } from 'uuid';
 import { UserDto } from "../dto/create_user.dto";
 import { AnimalDto } from "../dto/animal.dto";
+import { EstablishmentDto } from "../dto/establishment.dto";
+
+interface Services {
+  cache: CacheRepository;
+  emailRepository: EmailRepository;
+}
 
 @inject({
   model: User,
@@ -14,8 +20,17 @@ import { AnimalDto } from "../dto/animal.dto";
   }
 })
 export class UserService {
-  services: any;
+  services: Services;
   model: any;
+
+  async getUser(currentUser: any) {
+    const user = await this.model.findOne({ _id: currentUser._id });
+    delete user.password;
+    return {
+      success: true,
+      user: user.toObject()
+    }
+  }
 
   async changePassword ({ pathParameters }, body) {
     const _id = await this.services.cache.getAndRemove(pathParameters.uuid);
@@ -40,27 +55,34 @@ export class UserService {
   }
 
   async forgotPassword ({ pathParameters }) {
-    const user = await User.findOne({ email: pathParameters.email });
+    const user = await this.model.findOne({ email: pathParameters.email });
     this.validateUser(user);
     const uuid = v4();
     await this.services.cache.add(uuid, user?._id.toString());
-    this.services.emailRepository.dispatch('forgot_password', user?.email, { uuid });
+    this.services.emailRepository.dispatch('forgot_password', user?.email || '', { uuid });
     return { success: true, uuid: uuid };
   }
 
   async addAnimal (body: AnimalDto, loggedUser: any) {
-    const result = await User.updateOne({ _id: loggedUser._id }, {
+    const result = await this.model.updateOne({ _id: loggedUser._id }, {
       $push: {
         animals: body
       }
     });
 
-    if (result.ok == 0) {
-      throw {
-        statusCode: 404,
-        body: { success: false, message: `user_not_found` }
-      };
-    }
+    this.validateUser(result.ok);
+
+    return { success: true };
+  }
+
+  async addEstablishment(body: EstablishmentDto, loggedUser: any) {
+    const result = await this.model.updateOne({ _id: loggedUser._id }, {
+      $push: {
+        establishments: body
+      }
+    });
+
+    this.validateUser(result.ok);
 
     return { success: true };
   }

@@ -2,6 +2,7 @@ import { compare, hash } from 'bcrypt';
 import { model, Schema } from 'mongoose';
 import { User } from './User.interface';
 import AnimalSchema from './Animal';
+import EstablishmentSchema from './Establishment';
 
 const saltRounds = 10;
 
@@ -42,6 +43,13 @@ const userSchema = new Schema<User>({
     default: [],
     items: {
       type: AnimalSchema
+    }
+  },
+  establishments: {
+    type: Array,
+    default: [],
+    items: {
+      type: EstablishmentSchema
     }
   }
 });

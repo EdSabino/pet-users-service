@@ -19,6 +19,13 @@ import { connect } from 'mongoose';
 import { LoginDto } from './dto/login.dto';
 import { UserDto } from './dto/create_user.dto';
 import { AnimalDto } from './dto/animal.dto';
+import { EstablishmentDto } from './dto/establishment.dto';
+
+interface Services {
+  authorizeService: AuthorizeService;
+  userService: UserService;
+  accessService: AccessService;
+}
 
 @inject({
   model: User,
@@ -30,13 +37,11 @@ import { AnimalDto } from './dto/animal.dto';
 })
 export class UsersHandler {
   model: any;
-  services: any;
+  services: Services;
 
-  public get mongooseService() {
-    return {
-      connect: (val: string) => {
-        connect(val)
-      }
+  public mongooseService = {
+    connect: (val: string) => {
+      connect(val)
     }
   }
 
@@ -123,6 +128,24 @@ export class UsersHandler {
   @action()
   @body(AnimalDto)
   async addAnimal(event: any, __: any, extraArgs: any) {
-    return this.services.user.addAnimal(extraArgs.body, event.requestContext.authorizer.claims);
+    return this.services.userService.addAnimal(extraArgs.body, event.requestContext.authorizer.claims);
+  }
+
+  @wrapper()
+  @parseUser()
+  @database()
+  @action()
+  @body(EstablishmentDto)
+  async addEstablishment(event: any, __: any, extraArgs: any) {
+    return this.services.userService.addEstablishment(extraArgs.body, event.requestContext.authorizer.claims);
+  }
+
+  @wrapper()
+  @parseUser()
+  @database()
+  @action()
+  async me(event: any, _: any, __: any) {
+    const user = event.requestContext.authorizer.claims;
+    return this.services.userService.getUser(user);
   }
 }

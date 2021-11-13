@@ -43,6 +43,8 @@ export class AccessService {
   private createTokenFromUser(user: any, rememberMe: boolean) {
     delete user.password;
     delete user.__v;
+    delete user.establishments;
+    delete user.animals;
     return sign(user.toObject(), process.env.SECRET, { expiresIn: rememberMe ? '8760h' : '24h' });
   }
 
