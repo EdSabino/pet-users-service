@@ -28,8 +28,8 @@ describe('UsersHandler', () => {
 
         jest.spyOn(userService.model, 'findOne')
           .mockImplementation(() => ({ _id: 42, ...userMock() }));
-        
-        response = await handler.forgotPassword(eventParam, {});
+
+          response = await handler.forgotPassword(eventParam, {});
       });
 
       it('returns 200 statusCode', async () => {

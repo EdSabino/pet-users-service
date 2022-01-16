@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "test": "jest --runInBand --silent"
   },
   "dependencies": {
     "aws-sdk": "^2.942.0",
