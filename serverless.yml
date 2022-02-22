@@ -15,7 +15,7 @@ provider:
     subnetIds:
       - Ref: PrivateSubnet
   environment:
-    MONGO_URI: mongodb+srv://adm:9XIh4bdywjikBOKu@development.khj7l.mongodb.net/pet-user-db
+    MONGO_URI: ${param:mongouri}
     SNS_TOPIC_EMAIL: ${self:custom.snsTopicEmail}
     SECRET: segredosecreto
     REDIS_HOST:

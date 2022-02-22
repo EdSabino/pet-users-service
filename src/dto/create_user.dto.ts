@@ -5,15 +5,17 @@ export class UserDto {
   @IsString()
   @IsNotEmpty()
   name: string;
-
+  
   @IsString()
   @IsEmail()
+  @IsNotEmpty()
   email: string;
 
   @IsString()
   @IsNotEmpty()
   @MinLength(8)
   password: string;
+
   permissions: Object;
 
   @ValidateNested()

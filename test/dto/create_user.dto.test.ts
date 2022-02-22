@@ -31,6 +31,7 @@ describe('CreateUserDto', () => {
           children: [],
           constraints: {
             isEmail: 'email must be an email',
+            isNotEmpty: 'email should not be empty',
             isString: 'email must be a string'
           },
           property: 'email',

@@ -97,7 +97,7 @@ describe('UsersHandler', () => {
               },
               {
                 field: 'email',
-                failures: ['isEmail', 'isString']
+                failures: ['isNotEmpty', 'isEmail', 'isString']
               },
               {
                 field: 'password',
